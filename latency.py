@@ -3,12 +3,12 @@ import random
 
 prop_delay = random.uniform(0.01, 0.5) # should be run at the start of the simulation, unit it's seconds
 
-def latency(sender, receiver, event):    
-    # m => still need to review how this should be calculated
+def latency(sender, receiver, event, block = None):    
+    # m
     if event == "t":
-        m = 0
+        m = 8 * 1000
     elif event == "b":
-        m = 8 * 1,000,000
+        m = len(block.transactions) * 8 * 1000 # assumes that block has a transaction list associated
     else:
         raise ValueError("event must be t or b")
     # c_ij
