@@ -1,8 +1,8 @@
 CC = g++
 CFLAGS  = -Wall
 
-main: main.o node.o transaction.o
-	${CC} ${CFLAGS} -o netw main.o node.o transaction.o
+main: main.o node.o transaction.o task.o
+	${CC} ${CFLAGS} -o netw main.o node.o transaction.o task.o
 
 main.o: main.cpp
 	${CC} ${CFLAGS} -c main.cpp
@@ -10,6 +10,8 @@ main.o: main.cpp
 node.o: node.hpp
  
 transaction.o: transaction.hpp
+
+task.o: task.hpp
 
 clean:
 	rm netw
