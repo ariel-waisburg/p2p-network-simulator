@@ -19,6 +19,7 @@ class Task
 public:
     task_type type;
     long trigger_time;
+    
 };
 
 Task prepareForBlockSend(long time);

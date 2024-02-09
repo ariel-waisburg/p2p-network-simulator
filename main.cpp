@@ -48,7 +48,11 @@ int main()
 
             /* Do whatever operation you have to do with task.
             Just make sure to invert blk_crt_pending to false if
-            the current task was to create a block itself */
+            the current task was to create a block itself.
+
+            Also if any events like sending a block to some other
+            nodes happnes then introduce task with correct time in
+            that other miners task list */
 
             miners[idx].tasks.pop();
             miner_idx.pop();
