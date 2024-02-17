@@ -1,0 +1,15 @@
+CC = g++
+CFLAGS  = -Wall
+
+main: main.o node.o transaction.o
+    $(CC) $(CFLAGS) -o netw main.o node.o transaction.o
+  
+main.o: main.cpp node.h transaction.h
+    $(CC) $(CFLAGS) -c main.cpp
+ 
+node.o: node.h
+ 
+transaction.o: node.h transaction.h
+
+clean:
+	rm netw
