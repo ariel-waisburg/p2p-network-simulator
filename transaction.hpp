@@ -15,5 +15,5 @@ class TXN {
 TXN createTXN(Node miner, int id);
 
 bool verifyTransactions(Block block);
-
+double generateExponential(double mean);
 #endif

@@ -9,7 +9,7 @@ Task prepareTaskForBlockCreate(long time)
     return task;
 }
 
-Task prepareTaskForBlockRecieve(long time, vector<Block> blockchain)
+Task prepareTaskForBlockRecieve(double time, vector<Block> blockchain)
 {
     Task task;
     task.type = blk_rcv;

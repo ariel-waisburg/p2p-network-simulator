@@ -63,7 +63,7 @@ vector<vector<int>> createRandomTopology(int numPeers, mt19937& gen) {
     return adjacencyMatrix;
 }
 
-vector<Node> initialization(long numPeers)
+vector<Node> initialization(long numPeers, long global_time)
 {
     
     mt19937 gen(time(0));
@@ -89,13 +89,19 @@ vector<Node> initialization(long numPeers)
     float z_fastcpu = 1 - z_lowcpu;
     float z_fast = 1 - z_slow;
 
+    // Creation of the genesis block
+    Block genesis;
+    genesis.blk_id = 0;
+    genesis.crt_time = global_time;
+    genesis.txn_tree = {};
+
     for (int i = 0; i < numPeers; i++)
     {
         Node peer;
         peer.peer_id = i;
         peer.cpu = (i < z_slow * numPeers) ? peer.cpu = 0 : 1;
         peer.speed =  (i < z_lowcpu * numPeers) ? 0 : 1;
-        peer.tasks.push(prepareForBlockCreate(5)); // instead of default 5 there should be a random value
+        peer.blockchain = {genesis}; // adding genesis block
         adjacencyMatrix[i][i] = 0; // No self loops
         peer.peer_nbh = {};
         for (int j = 0; j<numPeers; j++)
