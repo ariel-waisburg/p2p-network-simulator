@@ -9,6 +9,11 @@ class TXN {
         int sender_id;
         int receiver_id;
         int amount;
+        int sender_bal;
 };
+
+TXN createTXN(Node miner, int id);
+
+bool verifyTransactions(Block block);
 
 #endif

@@ -63,12 +63,8 @@ vector<vector<int>> createRandomTopology(int numPeers, mt19937& gen) {
     return adjacencyMatrix;
 }
 
-vector<Node> initialization()
+vector<Node> initialization(long numPeers)
 {
-    long numPeers;
-
-    cout << "Enter the number of peers: ";
-    cin >> numPeers;
     
     mt19937 gen(time(0));
 
@@ -116,6 +112,7 @@ vector<Node> initialization()
         }
         peers.push_back(peer);
     }
+    
     return peers;
 }
 
@@ -143,10 +140,9 @@ int getBalance(vector<Node> p, int peer_id, int n_peers)
     return 0;
 };
 
-
-
-int main() {
-    initialization();
-    //Using Peer id as 0 to n_peers so we can navigate in the adjacency list easily
-    return 0;
+Block prepareNewBlock(int id, int crt_time){
+    Block block;
+    block.blk_id = id;
+    block.crt_time = crt_time;
+    return block;
 }

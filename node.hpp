@@ -16,7 +16,9 @@ public:
     int speed;   // 0 or 1
     int amnt;
     bool blk_crt_pending = true;
-    vector<int> peer_nbh;
+    vector<long> peer_nbh;
+    set<int> knownTxns;
+    vector<TXN> validatedTxns;
     priority_queue<Task, vector<Task>, Compare> tasks;
     vector<Block> blockchain;
 };
@@ -29,10 +31,12 @@ public:
     int crt_time;
 };
 
+Block prepareNewBlock(int id, int crt_time);
+
 void updateBalance(vector<Node> p, int peer_id, int amount, int n_peers);
 
 int getBalance(vector<Node> p, int peer_id, int n_peers);
 
-vector<Node> initialization();
+vector<Node> initialization(long numPeers);
 
 #endif

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <queue>
 #include <stack>
+#include <set>
 #include "node.hpp"
 #define Pll pair<long, long>
 using namespace std;
@@ -17,10 +18,13 @@ int main()
 
     cout << "\nEnter the number of peers in the network: ";
     cin >> n_peers;
-    cout << "\nDuration in seconds for the simulation to run: ";
+    cout << "\nDuration in milli-seconds for the simulation to run: ";
     cin >> time_limit;
 
-    vector<Node> miners = initialization();
+    vector<Node> miners = initialization(n_peers);
+    set<long> txnSet;
+    long blkId = 0;
+    long txnId = 0;
 
     while (global_time < time_limit)
     {
@@ -29,7 +33,7 @@ int main()
         {
             if (!miners[i].blk_crt_pending)
             {
-                miners[i].tasks.push(prepareForBlockCreate(5)); // Must be a random time for generation of block
+                miners[i].tasks.push(prepareTaskForBlockCreate(5)); // Must be a random time for generation of block
                 miners[i].blk_crt_pending = true;
             }
             miner_idx.push({miners[i].tasks.top().trigger_time, i}); // TODO: loop for all the tasks with same target time for optimization - not important
@@ -45,6 +49,8 @@ int main()
 
             long idx = miner_idx.top().second;
             Task task = miners[idx].tasks.top();
+            vector<long> neighbours = miners[idx].peer_nbh;
+            vector<TXN> txns = miners[idx].validatedTxns;
 
             /* Do whatever operation you have to do with task.
             Just make sure to invert blk_crt_pending to false if
@@ -54,6 +60,132 @@ int main()
             nodes happnes then introduce task with correct time in
             that other miners task list */
 
+            switch (task.type)
+            {
+            case blk_crt:
+            {
+                Block newBlock = prepareNewBlock(blkId++, global_time + smallest_time);
+                // Pick all the valid transactions that are not yet used
+                for (long i = 0; i < txns.size(); i++)
+                {
+                    if (txnSet.find(txns[i].txn_id) == txnSet.end())
+                    {
+                        txnSet.insert(txns[i].txn_id);
+                        newBlock.txn_tree.push_back(txns[i]);
+                        if (newBlock.txn_tree.size() == 1024)
+                        { // break after 1MB
+                            miners[idx].validatedTxns.erase(miners[idx].validatedTxns.begin());
+                            break;
+                        }
+                    }
+                    miners[idx].validatedTxns.erase(miners[idx].validatedTxns.begin());
+                }
+
+                miners[idx].blockchain.push_back(newBlock);
+                for (long i = 0; i < neighbours.size(); i++)
+                {
+                    Task rcvTask = prepareTaskForBlockRecieve(5, miners[idx].blockchain); // Use Ariel's latency code here to determine time
+                    miners[neighbours[i]].tasks.push(rcvTask);
+                }
+                miners[idx].blk_crt_pending = false;
+            }
+            break;
+            case blk_rcv:
+            {
+                if (task.blockchain.size() > miners[idx].blockchain.size())
+                {
+                    Task powTask = prepareTaskForPowDone(5, task); // Use random time instead of 5
+                    miners[idx].tasks.push(powTask);
+                }
+            }
+            break;
+            case pow_done:
+            {
+                long j = 0;
+                for (long i = 0; i < miners[idx].blockchain.size(); i++)
+                {
+                    if (miners[idx].blockchain[i].blk_id == task.blockchain[i].blk_id)
+                    {
+                        j++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                bool allCorrect = true;
+                for (long i = j; i < task.blockchain.size(); i++)
+                {
+                    // Check if the receieved blockchain has valid transactions
+                    if (!verifyTransactions(task.blockchain[i]))
+                    {
+                        allCorrect = false;
+                        break;
+                    }
+                }
+                if (allCorrect)
+                {
+                    miners[idx].blockchain = task.blockchain;
+                    if (miners[idx].blk_crt_pending)
+                    {
+                        vector<Task> newTasks;
+                        while (!miners[idx].tasks.empty())
+                        {
+                            Task curTask = miners[idx].tasks.top();
+                            miners[idx].tasks.pop();
+                            if (curTask.type == blk_crt)
+                                continue;
+                            newTasks.push_back(curTask);
+                        }
+                        for (auto it : newTasks)
+                        {
+                            miners[idx].tasks.push(it);
+                        }
+                        miners[idx].blk_crt_pending = false;
+                    }
+                }
+            }
+            break;
+            case txn_crt:
+            {
+                TXN txn = createTXN(miners[idx], txnId++);
+                if (txn.sender_bal >= txn.amount)
+                {
+                    miners[idx].knownTxns.insert(txn.txn_id);
+                    miners[idx].validatedTxns.push_back(task.txn);
+
+                    // Send it to all the peers
+                    for (long i = 0; i < neighbours.size(); i++)
+                    {
+                        Task rcvTask = prepareTaskForTxnRcv(5, txn); // Use Ariel's latency code here to determine time
+                        miners[neighbours[i]].tasks.push(rcvTask);
+                    }
+                }
+            }
+            break;
+            case txn_rcv:
+            {
+                if (task.txn.sender_bal >= task.txn.amount)
+                {
+                    miners[idx].validatedTxns.push_back(task.txn);
+                    if (task.txn.receiver_id != miners[idx].peer_id)
+                    {
+                        for (long i = 0; i < neighbours.size(); i++)
+                        {
+                            auto knownTxns = miners[neighbours[i]].knownTxns;
+                            if (knownTxns.find(task.txn.txn_id) == knownTxns.end())
+                            {
+                                Task rcvTask = prepareTaskForTxnRcv(5, task.txn); // Use Ariel's latency code here to determine time
+                                miners[neighbours[i]].tasks.push(rcvTask);
+                            }
+                        }
+                    }
+                }
+                miners[idx].knownTxns.insert(task.txn.txn_id);
+            }
+            break;
+            }
             miners[idx].tasks.pop();
             miner_idx.pop();
         }

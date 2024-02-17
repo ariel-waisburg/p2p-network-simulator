@@ -29,11 +29,11 @@ vector<TXN> createTransaction(vector<Node> Peers, int n_peers, double mean_inter
     // Seed for random number generation
     srand(static_cast<unsigned>(time(0)));
 
-    //double current_time = 0.0;
+    // double current_time = 0.0;
 
     // Sleep for exponential interarrival time
-    //double interarrival_time = generateExponential(mean_interarrival_time);
-    //current_time += interarrival_time;
+    // double interarrival_time = generateExponential(mean_interarrival_time);
+    // current_time += interarrival_time;
     // todo : simulate the passage of time...
 
     // Select random sender and receiver IDs
@@ -62,8 +62,28 @@ vector<TXN> createTransaction(vector<Node> Peers, int n_peers, double mean_inter
         cur_txn.push_back(txn);
 
         cout << " TxnID: " << txn.txn_id << " " << txn.sender_id << " pays " << txn.receiver_id << " " << txn.amount << " coins" << endl;
-
     }
 
     return cur_txn;
+}
+
+TXN createTXN(Node miner, int id){
+    TXN txn;
+    txn.amount = 10; // Create a random value less than balance
+    txn.sender_id = miner.peer_id;
+    txn.sender_bal = miner.amnt;
+    txn.receiver_id = 20; // Create it randomly
+    txn.txn_id = id;
+    return txn;
+}
+
+bool verifyTransactions(Block block)
+{
+    vector<TXN> txns = block.txn_tree;
+    for (int i = 0; i < txns.size(); i++)
+    {
+        if (txns[i].amount > txns[i].sender_bal)
+            return false;
+    }
+    return true;
 }
