@@ -66,7 +66,6 @@ vector<Node> initialization()
     cout << "Enter the number of peers: ";
     cin >> numPeers;
 
-
     // Create an initial random network 
     vector<vector<int>> list_connections = createRandomTopology(numPeers);
     
