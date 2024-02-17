@@ -15,7 +15,7 @@ public:
     int cpu;     // 0 or 1
     int speed;   // 0 or 1
     int amnt;
-    bool blk_crt_pending = true;
+    bool blk_crt_pending = false;
     vector<long> peer_nbh;
     set<int> knownTxns;
     vector<TXN> validatedTxns;
@@ -37,6 +37,6 @@ void updateBalance(vector<Node> p, int peer_id, int amount, int n_peers);
 
 int getBalance(vector<Node> p, int peer_id, int n_peers);
 
-vector<Node> initialization(long numPeers);
+vector<Node> initialization(long numPeers, long global_time);
 
 #endif

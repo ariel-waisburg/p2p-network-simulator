@@ -20,6 +20,8 @@ TXN createCoinbaseTransaction(int id, int txnId);
 
 bool verifyTransactions(Block block);
 
+double generateExponential(double mean);
+
 map<int, Task> prepareTasksForTxnCrt(long n_peers);
 
 #endif

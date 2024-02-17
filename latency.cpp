@@ -7,16 +7,14 @@
 using namespace std;
 
 // the prop_delay should be chosen at the start of the simulation, like this:
-// double prop_delay = std::uniform_real_distribution<double>(0.01, 0.5)(std::default_random_engine()); // time in seconds, change to ms if needed
+//double prop_delay = std::uniform_real_distribution<double>(0.01, 0.5)(std::default_random_engine()); // time in seconds, change to ms if needed
 
 double latency(Node sender, Node receiver, char event, double prop_delay, mt19937& gen) {
     double m;
     if (event == 't') {
         m = 8 * 1000;
     } else if (event == 'b') {
-        if (!block)
-            throw invalid_argument("Block argument is nullptr");
-        m = block->transactions * 8 * 1000; // assuming in the block class we can access quantity of transactions
+        m = block.transactions * 8 * 1000; // assuming in the block class we can access quantity of transactions
     } else {
         throw invalid_argument("event must be t or b");
     }

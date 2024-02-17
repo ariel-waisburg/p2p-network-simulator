@@ -59,7 +59,7 @@ vector<vector<int>> createRandomTopology(int numPeers) {
     return connections;
 }
 
-vector<Node> initialization(long numPeers)
+vector<Node> initialization(long numPeers, long global_time)
 {
     
     // Create an initial random network 
@@ -83,15 +83,30 @@ vector<Node> initialization(long numPeers)
     float z_fastcpu = 1 - z_lowcpu;
     float z_fast = 1 - z_slow;
 
-     for (int i = 0; i < numPeers; i++)
+    // Creation of the genesis block
+    Block genesis;
+    genesis.blk_id = 0;
+    genesis.crt_time = global_time;
+    genesis.txn_tree = {};
+
+    for (int i = 0; i < numPeers; i++)
     {
         Node peer;
         peer.peer_id = i;
         peer.cpu = (i < z_slow * numPeers) ? peer.cpu = 0 : 1;
         peer.speed =  (i < z_lowcpu * numPeers) ? 0 : 1;
-        peer.tasks.push(prepareTaskForBlockCreate(5)); // instead of default 5 there should be a random value
-        cout << "Peer " << i << " is connected to :  " << endl;
-        for (int j = 0; j < list_connections[i].size(); j++)
+        peer.blockchain = {genesis}; // adding genesis block
+        adjacencyMatrix[i][i] = 0; // No self loops
+        peer.peer_nbh = {};
+        for (int j = 0; j<numPeers; j++)
+        {
+            if (adjacencyMatrix[peer.peer_id][j] == 1)
+            {
+                peer.peer_nbh.push_back(j);
+            }
+        }
+        cout << peer.peer_id << " is connected to: ";
+        for (int j = 0; j < peer.peer_nbh.size(); j++)
         {
             peer.peer_nbh.push_back(list_connections[i][j]);
             cout << list_connections[i][j] << " ";
