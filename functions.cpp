@@ -153,7 +153,7 @@ vector<Node> initialization(long numPeers, long global_time)
         peer.blockchain = {genesis}; // adding genesis block
         peer.peer_nbh = {};
         cout << peer.peer_id << " is connected to: ";
-        for (int j = 0; j < peer.peer_nbh.size(); j++)
+        for (int j = 0; j < list_connections[i].size(); j++)
         {
             peer.peer_nbh.push_back(list_connections[i][j]);
             cout << list_connections[i][j] << " ";
@@ -272,8 +272,6 @@ TXN createTransaction(Node miner, int id, long n_peers)
     txn.sender_bal = miner.amnt;
     txn.receiver_id = receiver_id;
     txn.txn_id = id;
-
-    cout << " TxnID: " << txn.txn_id << " " << txn.sender_id << " pays " << txn.receiver_id << " " << txn.amount << " coins" << endl;
 
     return txn;
 }
