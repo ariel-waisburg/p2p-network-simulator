@@ -33,9 +33,13 @@ int main()
     set<long> txnSet;                                               // Global set to see any used txns behaving as UTXO
     long blkId = 0;                                                 // Unique Id for blocks created in increasing format
     long txnId = 0;                                                 // Unique Id for transactions created in increasing format
-
-    double prop_delay = uniform_real_distribution<double>(0.01, 0.5)(default_random_engine());
+    
     static mt19937 gen(rand());
+    uniform_real_distribution<double> distribution(0.01, 0.5);
+
+    // Generate a random number
+    double prop_delay = distribution(gen);
+
 
     while (global_time < time_limit)
     {

@@ -11,10 +11,11 @@ using namespace std;
 
 double latency(Node sender, Node receiver, char event, double prop_delay, mt19937& gen) {
     double m;
+    Block b;
     if (event == 't') {
         m = 8 * 1000;
     } else if (event == 'b') {
-        m = block.transactions * 8 * 1000; // assuming in the block class we can access quantity of transactions
+        m = b.txn_tree.size() * 8 * 1000; // assuming in the block class we can access quantity of transactions
     } else {
         throw invalid_argument("event must be t or b");
     }

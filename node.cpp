@@ -96,15 +96,7 @@ vector<Node> initialization(long numPeers, long global_time)
         peer.cpu = (i < z_slow * numPeers) ? peer.cpu = 0 : 1;
         peer.speed =  (i < z_lowcpu * numPeers) ? 0 : 1;
         peer.blockchain = {genesis}; // adding genesis block
-        adjacencyMatrix[i][i] = 0; // No self loops
         peer.peer_nbh = {};
-        for (int j = 0; j<numPeers; j++)
-        {
-            if (adjacencyMatrix[peer.peer_id][j] == 1)
-            {
-                peer.peer_nbh.push_back(j);
-            }
-        }
         cout << peer.peer_id << " is connected to: ";
         for (int j = 0; j < peer.peer_nbh.size(); j++)
         {
