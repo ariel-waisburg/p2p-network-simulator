@@ -22,9 +22,9 @@ int main()
     cin >> time_limit;
 
     vector<Node> miners = initialization(n_peers);
-    set<long> txnSet;
-    long blkId = 0;
-    long txnId = 0;
+    set<long> txnSet;                                               // Global set to see any used txns behaving as UTXO
+    long blkId = 0;                                                 // Unique Id for blocks created in increasing format
+    long txnId = 0;                                                 // Unique Id for transactions created in increasing format
 
     while (global_time < time_limit)
     {
@@ -36,7 +36,7 @@ int main()
                 miners[i].tasks.push(prepareTaskForBlockCreate(5)); // Must be a random time for generation of block
                 miners[i].blk_crt_pending = true;
             }
-            miner_idx.push({miners[i].tasks.top().trigger_time, i}); // TODO: loop for all the tasks with same target time for optimization - not important
+            miner_idx.push({miners[i].tasks.top().trigger_time, i}); 
         }
 
         long smallest_time = miner_idx.top().first;
@@ -65,6 +65,10 @@ int main()
             case blk_crt:
             {
                 Block newBlock = prepareNewBlock(blkId++, global_time + smallest_time);
+                TXN reward = createCoinbaseTransaction(miners[idx].peer_id, txnId++);
+                newBlock.txn_tree.push_back(reward);
+                txnSet.insert(reward.txn_id);
+
                 // Pick all the valid transactions that are not yet used
                 for (long i = 0; i < txns.size(); i++)
                 {
@@ -87,6 +91,7 @@ int main()
                     Task rcvTask = prepareTaskForBlockRecieve(5, miners[idx].blockchain); // Use Ariel's latency code here to determine time
                     miners[neighbours[i]].tasks.push(rcvTask);
                 }
+                miners[idx].amnt += 50; // Incremented by 50 coins for coinbase transaction
                 miners[idx].blk_crt_pending = false;
             }
             break;
@@ -149,7 +154,7 @@ int main()
             break;
             case txn_crt:
             {
-                TXN txn = createTXN(miners[idx], txnId++);
+                TXN txn = createTransaction(miners[idx], txnId++, n_peers);
                 if (txn.sender_bal >= txn.amount)
                 {
                     miners[idx].knownTxns.insert(txn.txn_id);
@@ -181,6 +186,10 @@ int main()
                             }
                         }
                     }
+                    else
+                    {
+                        miners[idx].amnt += task.txn.amount;
+                    }
                 }
                 miners[idx].knownTxns.insert(task.txn.txn_id);
             }
@@ -190,6 +199,10 @@ int main()
             miner_idx.pop();
         }
         global_time += smallest_time;
+
+        // // Create random transaction generate events
+        // vector<Task> randomIds = prepareTaskForTxnCrt(n_peers);
+
     }
 
     cout << "\nSimulation ended at time " << global_time << " seconds\n";
