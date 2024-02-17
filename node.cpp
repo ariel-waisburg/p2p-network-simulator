@@ -18,63 +18,57 @@ int generateRandom(int min, int max) {
 }
 
 // Function to check connectedness of the graph using DFS
-bool isConnected(const vector<vector<int>>& adjacencyMatrix, int numNodes) {
+bool isConnected(const vector<vector<int>>& connections, int numNodes) {
     vector<bool> visited(numNodes, false);
 
     function<void(int)> dfs = [&](int node) {
         visited[node] = true;
-        for (int neighbor = 0; neighbor < numNodes; ++neighbor) {
-            if (adjacencyMatrix[node][neighbor] && !visited[neighbor]) {
+        for (int neighbor : connections[node]) {
+            if (!visited[neighbor]) {
                 dfs(neighbor);
             }
         }
     };
-    
-    dfs(0);
-
+    // Check connectivity for each node individually
+    for (int node = 0; node < numNodes; ++node) {
+        if (!visited[node]) {
+            dfs(node);
+        }
+    }
+    // Check if all nodes are visited
     return all_of(visited.begin(), visited.end(), [](bool v) { return v; });
 }
 
 // Function to create a random network topology using adjacency matrix
-vector<vector<int>> createRandomTopology(int numPeers, mt19937& gen) {
-    vector<vector<int>> adjacencyMatrix(numPeers, vector<int>(numPeers, 0));
-    
-    // Create edges between peers
+vector<vector<int>> createRandomTopology(int numPeers) {
+    mt19937 gen(time(0));
+    vector<vector<int>> connections(numPeers);
+
     for (int i = 0; i < numPeers; ++i) {
-        int numEdges = generateRandom(3, 6);
+        int numConnections = gen() % 4 + 3;
 
-        set<int> chosenNeighbors;
-        int maxAttempts = 10 * numEdges; // Set a maximum number of attempts
+        vector<int> possibleConnections(numPeers);
+        iota(possibleConnections.begin(), possibleConnections.end(), 0);
+        possibleConnections.erase(remove(possibleConnections.begin(), possibleConnections.end(), i), possibleConnections.end());
 
-        while (chosenNeighbors.size() < numEdges && maxAttempts > 0) {
-            int neighbor = generateRandom(0, numPeers - 1);
-            if (neighbor != i) {
-                chosenNeighbors.insert(neighbor);
-            }
-            maxAttempts--;
-        }
-        
-        for (int neighbor : chosenNeighbors) { // Set connections   
-            adjacencyMatrix[i][neighbor] = 1;  
-            adjacencyMatrix[neighbor][i] = 1;  
+        shuffle(possibleConnections.begin(), possibleConnections.end(), gen);
 
-        }
+        connections[i].insert(connections[i].end(), possibleConnections.begin(), possibleConnections.begin() + numConnections);
     }
-    return adjacencyMatrix;
+
+    return connections;
 }
 
 vector<Node> initialization(long numPeers)
 {
     
-    mt19937 gen(time(0));
-
     // Create an initial random network 
-    vector<vector<int>> adjacencyMatrix = createRandomTopology(numPeers, gen);
+    vector<vector<int>> list_connections = createRandomTopology(numPeers);
     
     // Check if the graph is connected, recreate the graph until it is connected
-    while (!isConnected(adjacencyMatrix, numPeers)) {
+    while (!isConnected(list_connections, numPeers)) {
         cout << "Generated graph is not connected. Recreating..." << endl;
-        adjacencyMatrix = createRandomTopology(numPeers, gen);
+        list_connections = createRandomTopology(numPeers);
     }
 
     vector<Node> peers;
@@ -89,27 +83,20 @@ vector<Node> initialization(long numPeers)
     float z_fastcpu = 1 - z_lowcpu;
     float z_fast = 1 - z_slow;
 
-    for (int i = 0; i < numPeers; i++)
+     for (int i = 0; i < numPeers; i++)
     {
         Node peer;
         peer.peer_id = i;
         peer.cpu = (i < z_slow * numPeers) ? peer.cpu = 0 : 1;
         peer.speed =  (i < z_lowcpu * numPeers) ? 0 : 1;
-        peer.tasks.push(prepareForBlockCreate(5)); // instead of default 5 there should be a random value
-        adjacencyMatrix[i][i] = 0; // No self loops
-        peer.peer_nbh = {};
-        for (int j = 0; j<numPeers; j++)
+        peer.tasks.push(prepareTaskForBlockCreate(5)); // instead of default 5 there should be a random value
+        cout << "Peer " << i << " is connected to :  " << endl;
+        for (int j = 0; j < list_connections[i].size(); j++)
         {
-            if (adjacencyMatrix[peer.peer_id][j] == 1)
-            {
-                peer.peer_nbh.push_back(j);
-            }
+            peer.peer_nbh.push_back(list_connections[i][j]);
+            cout << list_connections[i][j] << " ";
         }
-        cout << peer.peer_id << " is connected to: ";
-        for (int j = 0; j < peer.peer_nbh.size(); j++)
-        {
-            cout << peer.peer_nbh[j] << endl;
-        }
+        cout << endl;
         peers.push_back(peer);
     }
     
