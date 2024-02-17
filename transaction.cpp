@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
+#include <map>
+#include <set>
 #include "node.hpp"
 #include "transaction.hpp"
 
@@ -26,12 +28,12 @@ TXN createTransaction(Node miner, int id, long n_peers)
 {
     TXN txn;
 
-    srand(static_cast<unsigned>(time(0)));            // Seed for random number generation
-    int receiver_id = generateRandom(0, n_peers);     // Select a random receiver ID
+    srand(static_cast<unsigned>(time(0)));        // Seed for random number generation
+    int receiver_id = generateRandom(0, n_peers); // Select a random receiver ID
     while (receiver_id == miner.peer_id)
         receiver_id = generateRandom(0, n_peers);
 
-    txn.amount = generateRandom(1, 20);               // Create a random amount between 1 to 20
+    txn.amount = generateRandom(1, 20); // Create a random amount between 1 to 20
     txn.sender_id = miner.peer_id;
     txn.sender_bal = miner.amnt;
     txn.receiver_id = receiver_id;
@@ -42,10 +44,11 @@ TXN createTransaction(Node miner, int id, long n_peers)
     return txn;
 }
 
-TXN createCoinbaseTransaction(int id, int txnId){
+TXN createCoinbaseTransaction(int id, int txnId)
+{
     TXN txn;
     txn.coinbase = true;
-    txn.sender_id = -1;                              // Sender is not there for coinbase
+    txn.sender_id = -1; // Sender is not there for coinbase
     txn.receiver_id = id;
     txn.amount = 50;
     txn.txn_id = txnId;
@@ -61,4 +64,21 @@ bool verifyTransactions(Block block)
             return false;
     }
     return true;
+}
+
+map<int, Task> prepareTasksForTxnCrt(long n_peers)
+{
+    map<int, Task> tasks;
+    set<int> ids;
+    int taskCount = 0;
+    while (taskCount < 10) // Generating random 10 transactions after every iteration
+    {
+        int senderId = generateRandom(0, n_peers);
+        while (ids.find(senderId) != ids.end())
+            senderId = generateRandom(0, n_peers);
+        Task task = prepareTaskForTxnCrt(5);
+        tasks[senderId] = task;
+        taskCount++;
+    }
+    return tasks;
 }

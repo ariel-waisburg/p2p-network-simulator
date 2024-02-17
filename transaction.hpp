@@ -2,6 +2,7 @@
 #define TRANSACTION_HPP
 
 #include <vector>
+#include <map>
 
 class TXN {
     public:
@@ -18,5 +19,7 @@ TXN createTransaction(Node miner, int id, long n_peers);
 TXN createCoinbaseTransaction(int id, int txnId);
 
 bool verifyTransactions(Block block);
+
+map<int, Task> prepareTasksForTxnCrt(long n_peers);
 
 #endif
