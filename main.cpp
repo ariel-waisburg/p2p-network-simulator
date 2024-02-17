@@ -3,11 +3,9 @@
 #include <stack>
 #include <set>
 #include <map>
-#include "node.hpp"
-#include "transaction.hpp"
-#include "task.hpp"
 #include <random>
-#include "latency.hpp"
+#include "models.cpp"
+#include "functions.cpp"
 #define Pll pair<long, long>
 using namespace std;
 
@@ -30,16 +28,15 @@ int main()
     cin >> time_limit;
 
     vector<Node> miners = initialization(n_peers, global_time);
-    set<long> txnSet;                                               // Global set to see any used txns behaving as UTXO
-    long blkId = 0;                                                 // Unique Id for blocks created in increasing format
-    long txnId = 0;                                                 // Unique Id for transactions created in increasing format
-    
+    set<long> txnSet; // Global set to see any used txns behaving as UTXO
+    long blkId = 0;   // Unique Id for blocks created in increasing format
+    long txnId = 0;   // Unique Id for transactions created in increasing format
+
     static mt19937 gen(rand());
     uniform_real_distribution<double> distribution(0.01, 0.5);
 
     // Generate a random number
     double prop_delay = distribution(gen);
-
 
     while (global_time < time_limit)
     {
@@ -48,10 +45,10 @@ int main()
         {
             if (!miners[i].blk_crt_pending)
             {
-                miners[i].tasks.push(prepareTaskForBlockCreate(generateExponential(lambda)*1000)); // TODO - Use better randomization
+                miners[i].tasks.push(prepareTaskForBlockCreate(generateExponential(lambda) * 1000)); // TODO - Use better randomization
                 miners[i].blk_crt_pending = true;
             }
-            miner_idx.push({miners[i].tasks.top().trigger_time, i}); 
+            miner_idx.push({miners[i].tasks.top().trigger_time, i});
         }
 
         long smallest_time = miner_idx.top().first;
@@ -103,7 +100,7 @@ int main()
                 miners[idx].blockchain.push_back(newBlock);
                 for (long i = 0; i < neighbours.size(); i++)
                 {
-                    Task rcvTask = prepareTaskForBlockRecieve(latency(miners[idx], miners[neighbours[i]], 'b', prop_delay, gen)*1000, miners[idx].blockchain); // Use Ariel's latency code here to determine time
+                    Task rcvTask = prepareTaskForBlockRecieve(latency(miners[idx], miners[neighbours[i]], 'b', prop_delay, gen) * 1000, miners[idx].blockchain); // Use Ariel's latency code here to determine time
                     miners[neighbours[i]].tasks.push(rcvTask);
                 }
                 miners[idx].amnt += 50; // Incremented by 50 coins for coinbase transaction
@@ -114,7 +111,7 @@ int main()
             {
                 if (task.blockchain.size() > miners[idx].blockchain.size())
                 {
-                    Task powTask = prepareTaskForPowDone(generateExponential(lambda)*1000, task);
+                    Task powTask = prepareTaskForPowDone(generateExponential(lambda) * 1000, task);
                     miners[idx].tasks.push(powTask);
                 }
             }
@@ -178,7 +175,7 @@ int main()
                     // Send it to all the peers
                     for (long i = 0; i < neighbours.size(); i++)
                     {
-                        Task rcvTask = prepareTaskForTxnRcv(latency(miners[idx], miners[neighbours[i]], 't', prop_delay, gen)*1000, txn); 
+                        Task rcvTask = prepareTaskForTxnRcv(latency(miners[idx], miners[neighbours[i]], 't', prop_delay, gen) * 1000, txn);
                         miners[neighbours[i]].tasks.push(rcvTask);
                     }
                 }
@@ -196,7 +193,7 @@ int main()
                             auto knownTxns = miners[neighbours[i]].knownTxns;
                             if (knownTxns.find(task.txn.txn_id) == knownTxns.end())
                             {
-                                Task rcvTask = prepareTaskForTxnRcv(latency(miners[idx], miners[neighbours[i]], 't', prop_delay, gen)*1000, task.txn);
+                                Task rcvTask = prepareTaskForTxnRcv(latency(miners[idx], miners[neighbours[i]], 't', prop_delay, gen) * 1000, task.txn);
                                 miners[neighbours[i]].tasks.push(rcvTask);
                             }
                         }
@@ -215,9 +212,9 @@ int main()
         }
         global_time += smallest_time;
 
-    
-        map<int,Task> txnCrtTasks = prepareTasksForTxnCrt(n_peers);         // Create random transaction generate events
-        for(auto it: txnCrtTasks){
+        map<int, Task> txnCrtTasks = prepareTasksForTxnCrt(n_peers); // Create random transaction generate events
+        for (auto it : txnCrtTasks)
+        {
             int idx = it.first;
             Task task = it.second;
             miners[idx].tasks.push(task);
