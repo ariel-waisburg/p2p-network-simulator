@@ -10,7 +10,7 @@ using namespace std;
 class Node
 {
 public:
-    int peer_id; // 1 to ...
+    int peer_id; // 0 to ...
     int cpu;     // 0 or 1
     int speed;   // 0 or 1
     int amnt;

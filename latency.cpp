@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "node.hpp"
-// #include "block.hpp" // to be checked with the inclution of the block class
+// #include "block.hpp" // to be checked with the inclusion of the block class
 #include <random>
 
 using namespace std;
@@ -15,10 +15,10 @@ double latency(Node sender, Node receiver, char event, double prop_delay, mt1993
         m = 8 * 1000;
     } else if (event == 'b') {
         if (!block)
-            throw std::invalid_argument("Block argument is nullptr");
+            throw invalid_argument("Block argument is nullptr");
         m = block->transactions * 8 * 1000; // assuming in the block class we can access quantity of transactions
     } else {
-        throw std::invalid_argument("event must be t or b");
+        throw invalid_argument("event must be t or b");
     }
     double c;
     if (sender.speed && receiver.speed) {
@@ -28,9 +28,9 @@ double latency(Node sender, Node receiver, char event, double prop_delay, mt1993
     }
     double d_mean = 96 * 1000 / c;
 
-    std::random_device rd;
-    std::mt19937 rnd_gen (rd ());
-    std::exponential_distribution<double> distribution (1/d_mean);
+    random_device rd;
+    mt19937 rnd_gen (rd ());
+    exponential_distribution<double> distribution (1/d_mean);
     
     double d = distribution(gen);
 

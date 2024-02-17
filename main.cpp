@@ -20,7 +20,7 @@ int main()
     cout << "\nDuration in seconds for the simulation to run: ";
     cin >> time_limit;
 
-    vector<Node> miners = initialization(n_peers);
+    vector<Node> miners = initialization();
 
     while (global_time < time_limit)
     {

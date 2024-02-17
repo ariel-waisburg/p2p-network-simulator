@@ -97,8 +97,8 @@ vector<Node> initialization()
     {
         Node peer;
         peer.peer_id = i;
-        peer.cpu = 0;
-        peer.speed = 1;
+        peer.cpu = (i < z_slow * numPeers) ? 0 : 1;
+        peer.speed =  (i < z_lowcpu * numPeers) ? 0 : 1;
         peer.tasks.push(prepareForBlockCreate(5)); // instead of default 5 there should be a random value
         adjacencyMatrix[i][i] = 0; // No self loops
         peer.peer_nbh = {};
