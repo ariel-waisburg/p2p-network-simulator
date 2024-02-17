@@ -15,7 +15,7 @@ public:
     int speed;   // 0 or 1
     int amnt;
     bool blk_crt_pending = true;
-    vector<Node> peer_nbh;
+    vector<int> peer_nbh;
     priority_queue<Task, vector<Task>, Compare> tasks;
 };
 
@@ -23,6 +23,6 @@ void updateBalance(vector<Node> p, int peer_id, int amount, int n_peers);
 
 int getBalance(vector<Node> p, int peer_id, int n_peers);
 
-vector<Node> initialization(long);
+vector<Node> initialization();
 
 #endif

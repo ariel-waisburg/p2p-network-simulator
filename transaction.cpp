@@ -52,7 +52,7 @@ vector<TXN> createTransactions(vector<Node> Peers, int n_peers, double mean_inte
         if (getBalance(Peers, sender_id, n_peers) >= transaction_amount)
         {
             TXN txn;
-            txn.txn_id = i + 1; // Assuming txn_id starts from 1
+            txn.txn_id = i; // Assuming txn_id starts from 1
             txn.sender_id = sender_id;
             txn.receiver_id = receiver_id;
             txn.amount = transaction_amount;
