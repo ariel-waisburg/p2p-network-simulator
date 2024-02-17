@@ -22,7 +22,7 @@ double generateExponential(double mean)
 }
 
 // Function to create transactions between random peers with exponential interarrival times
-vector<TXN> createTransactions(vector<Node> Peers, int n_peers, double mean_interarrival_time, int txn_id)
+vector<TXN> createTransaction(vector<Node> Peers, int n_peers, double mean_interarrival_time, int txn_id)
 {
     vector<TXN> cur_txn;
 
