@@ -18,9 +18,9 @@ public:
     bool blk_crt_pending = true;
     vector<int> peer_nbh;
     priority_queue<Task, vector<Task>, Compare> tasks;
-    vector<Block> blockchain;
+    //vector<Block> blockchain;
 };
-
+/*
 class Block
 {
 public:
@@ -28,7 +28,7 @@ public:
     vector<TXN> txn_tree;
     int crt_time;
 };
-
+*/
 void updateBalance(vector<Node> p, int peer_id, int amount, int n_peers);
 
 int getBalance(vector<Node> p, int peer_id, int n_peers);
