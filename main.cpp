@@ -41,7 +41,7 @@ int main()
 
     while (global_time < time_limit)
     {
-        priority_queue<Pll, vector<Pll>, greater<Pll>> miner_idx;
+        priority_queue<Pll, vector<Pll>, greater<Pll > > miner_idx;
         for (long i = 0; i < n_peers; i++)
         {
             if (!miners[i].blk_crt_pending)
@@ -49,7 +49,7 @@ int main()
                 miners[i].tasks.push(prepareTaskForBlockCreate(generateExponential(lambda) * 1000)); // TODO - Use better randomization
                 miners[i].blk_crt_pending = true;
             }
-            miner_idx.push({miners[i].tasks.top().trigger_time, i});
+            miner_idx.push(make_pair(miners[i].tasks.top().trigger_time, i));
         }
 
         long smallest_time = miner_idx.top().first;
