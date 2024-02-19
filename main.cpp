@@ -40,7 +40,7 @@ int main()
 
     while (global_time < time_limit)
     {
-        priority_queue<Pll, vector<Pll>, greater<Pll>> miner_idx;
+        priority_queue<Pll, vector<Pll>, greater<Pll> > miner_idx;
         for (long i = 0; i < n_peers; i++)
         {
             if (!miners[i].blk_crt_pending)

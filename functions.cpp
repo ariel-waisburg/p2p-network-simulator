@@ -34,13 +34,7 @@ double latency(Node sender, Node receiver, char event, double prop_delay, mt1993
         c = 5 * 1000000;
     }
     double d_mean = 96 * 1000 / c;
-
-    random_device rd;
-    mt19937 rnd_gen(rd());
-    exponential_distribution<double> distribution(1 / d_mean);
-
-    double d = distribution(gen);
-
+    double d = generateExponential(d_mean);
     double l_ij = prop_delay + m / c + d;
 
     return l_ij;
@@ -58,7 +52,7 @@ int generateRandom(int min, int max)
 }
 
 // Function to check connectedness of the graph using DFS
-bool isConnected(const vector<vector<int>> &connections, int numNodes)
+bool isConnected(const vector<vector<int> > &connections, int numNodes)
 {
     vector<bool> visited(numNodes, false);
 
@@ -84,13 +78,14 @@ bool isConnected(const vector<vector<int>> &connections, int numNodes)
     // Check if all nodes are visited
     return all_of(visited.begin(), visited.end(), [](bool v)
                   { return v; });
+
 }
 
 // Function to create a random network topology using adjacency matrix
-vector<vector<int>> createRandomTopology(int numPeers)
+vector<vector<int> > createRandomTopology(int numPeers)
 {
     mt19937 gen(time(0));
-    vector<vector<int>> connections(numPeers);
+    vector<vector<int> > connections(numPeers);
 
     for (int i = 0; i < numPeers; ++i)
     {
@@ -112,7 +107,7 @@ vector<Node> initialization(long numPeers, long global_time)
 {
 
     // Create an initial random network
-    vector<vector<int>> list_connections = createRandomTopology(numPeers);
+    vector<vector<int> > list_connections = createRandomTopology(numPeers);
 
     // Check if the graph is connected, recreate the graph until it is connected
     while (!isConnected(list_connections, numPeers))
@@ -244,17 +239,15 @@ Task prepareTaskForPowDone(long time, Task rcvTask)
 
 // transactions . cpp
 
-// Function to generate a random integer within a given range
-int generateRandomInt(int min, int max)
-{
-    return min + rand() % (max - min + 1);
-}
-
 // Function to generate a random number from an exponential distribution
 double generateExponential(double mean)
 {
-    double u = rand() / (RAND_MAX + 1.0);
-    return -mean * log(1 - u);
+    //double u = rand() / (RAND_MAX + 1.0);
+    //return -mean * log(1 - u);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::exponential_distribution<> dist(1.0 / mean);
+    return dist(gen);
 }
 
 // Function to create transactions between random peers with exponential interarrival times
@@ -263,11 +256,11 @@ TXN createTransaction(Node miner, int id, long n_peers)
     TXN txn;
 
     srand(static_cast<unsigned>(time(0)));           // Seed for random number generation
-    int receiver_id = generateRandomInt(0, n_peers); // Select a random receiver ID
+    int receiver_id = generateRandom(0, n_peers); // Select a random receiver ID
     while (receiver_id == miner.peer_id)
-        receiver_id = generateRandomInt(0, n_peers);
+        receiver_id = generateRandom(0, n_peers);
 
-    txn.amount = generateRandomInt(1, 20); // Create a random amount between 1 to 20
+    txn.amount = generateRandom(1, 20); // Create a random amount between 1 to 20
     txn.sender_id = miner.peer_id;
     txn.sender_bal = miner.amnt;
     txn.receiver_id = receiver_id;
