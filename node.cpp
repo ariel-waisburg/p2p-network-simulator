@@ -6,6 +6,9 @@
 #include <random>
 #include <algorithm>
 #include <set>
+#include "transaction.hpp"
+#include "latency.hpp"
+#include <functional>
 
 using namespace std;
 
@@ -17,30 +20,39 @@ int generateRandom(int min, int max) {
     return distribution(gen);
 }
 
-bool isConnected(const vector<vector<int>>& connections, int numNodes) {
-    vector<bool> visited(numNodes, false);
 
-    function<void(int)> dfs = [&](int node) {
-        visited[node] = true;
-        for (int neighbor : connections[node]) {
-            if (!visited[neighbor]) {
-                dfs(neighbor);
-            }
+void dfs(const std::vector<std::vector<int > >& connections, std::vector<bool>& visited, int node) {
+    visited[node] = true;
+    for (int neighbor : connections[node]) {
+        if (!visited[neighbor]) {
+            dfs(connections, visited, neighbor);
         }
-    };
+    }
+}
+
+// Function to check connectedness of the graph using DFS
+bool isNodeVisited(bool v) {
+    return v;
+}
+
+bool isConnected(const std::vector<std::vector<int > >& connections, int numNodes) {
+    std::vector<bool> visited(numNodes, false);
+
     // Check connectivity for each node individually
     for (int node = 0; node < numNodes; ++node) {
         if (!visited[node]) {
-            dfs(node);
+            dfs(connections, visited, node);
         }
     }
+
     // Check if all nodes are visited
-    return all_of(visited.begin(), visited.end(), [](bool v) { return v; });
+    return std::all_of(visited.begin(), visited.end(), isNodeVisited);
 }
 
-vector<vector<int>> createRandomTopology(int numPeers) {
+// Function to create a random network topology using adjacency matrix
+vector<vector<int > > createRandomTopology(int numPeers) {
     mt19937 gen(time(0));
-    vector<vector<int>> connections(numPeers);
+    vector<vector<int > > connections(numPeers);
 
     for (int i = 0; i < numPeers; ++i) {
         int numConnections = gen() % 4 + 3;
@@ -57,17 +69,11 @@ vector<vector<int>> createRandomTopology(int numPeers) {
     return connections;
 }
 
-
-
-vector<Node> initialization()
+vector<Node> initialization(long numPeers, long global_time)
 {
-    long numPeers;
-
-    cout << "Enter the number of peers: ";
-    cin >> numPeers;
-
+    
     // Create an initial random network 
-    vector<vector<int>> list_connections = createRandomTopology(numPeers);
+    vector<vector<int > > list_connections = createRandomTopology(numPeers);
     
     // Check if the graph is connected, recreate the graph until it is connected
     while (!isConnected(list_connections, numPeers)) {
@@ -87,15 +93,23 @@ vector<Node> initialization()
     float z_fastcpu = 1 - z_lowcpu;
     float z_fast = 1 - z_slow;
 
+    // Creation of the genesis block
+    Block genesis;
+    genesis.blk_id = 0;
+    genesis.crt_time = global_time;
+    genesis.txn_tree = vector<TXN>();  // Assuming TXN is the type of elements in txn_tree
+
+
     for (int i = 0; i < numPeers; i++)
     {
         Node peer;
         peer.peer_id = i;
         peer.cpu = (i < z_slow * numPeers) ? peer.cpu = 0 : 1;
         peer.speed =  (i < z_lowcpu * numPeers) ? 0 : 1;
-        peer.tasks.push(prepareForBlockCreate(5)); // instead of default 5 there should be a random value
-        cout << "Peer " << i << " is connected to :  " << endl;
-        for (int j = 0; j < list_connections[i].size(); j++)
+        peer.blockchain = vector<Block>(1, genesis);
+        peer.peer_nbh = vector<long>();  // Assuming long is the type of elements in peer_nbh
+        cout << peer.peer_id << " is connected to: ";
+        for (int j = 0; j < peer.peer_nbh.size(); j++)
         {
             peer.peer_nbh.push_back(list_connections[i][j]);
             cout << list_connections[i][j] << " ";
@@ -103,6 +117,7 @@ vector<Node> initialization()
         cout << endl;
         peers.push_back(peer);
     }
+    
     return peers;
 }
 
@@ -130,10 +145,9 @@ int getBalance(vector<Node> p, int peer_id, int n_peers)
     return 0;
 };
 
-
-
-int main() {
-    initialization();
-    //Using Peer id as 0 to n_peers so we can navigate in the adjacency list easily
-    return 0;
+Block prepareNewBlock(int id, int crt_time){
+    Block block;
+    block.blk_id = id;
+    block.crt_time = crt_time;
+    return block;
 }

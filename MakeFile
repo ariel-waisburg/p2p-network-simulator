@@ -1,8 +1,8 @@
-CC = g++
+CC = g++ -std=c++03
 CFLAGS  = -Wall
 
-main: main.o node.o transaction.o task.o
-	${CC} ${CFLAGS} -o netw main.o node.o transaction.o task.o
+main: main.o node.o transaction.o task.o latency.o
+	${CC} ${CFLAGS} -o netw main.o node.o transaction.o task.o latency.o
 
 main.o: main.cpp
 	${CC} ${CFLAGS} -c main.cpp
@@ -10,6 +10,8 @@ main.o: main.cpp
 node.o: node.hpp
  
 transaction.o: transaction.hpp
+
+latency.o: latency.hpp
 
 task.o: task.hpp
 
