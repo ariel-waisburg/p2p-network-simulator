@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class TXN
+class Txn
 {
 public:
     int txn_id;
@@ -22,18 +22,17 @@ public:
 class Block
 {
 public:
-    int blk_id; // 0 to ...
-    vector<TXN> txn_tree;
+    int blk_id; // 0 to ... (0 being for genesis)
+    vector<Txn> txn_tree;
     int crt_time;
 };
 
 enum task_type
 {
-    blk_rcv,
-    blk_crt,
-    txn_rcv,
-    txn_crt,
-    pow_done
+    blk_crt, // Create block task
+    blk_rcv, // Recieve block task
+    txn_crt, // Transaction create task
+    txn_rcv, // Transaction recieved task
 };
 
 class Task
@@ -42,7 +41,7 @@ public:
     task_type type;
     int trigger_time;
     vector<Block> blockchain;
-    TXN txn;
+    Txn txn;
 };
 
 class Compare
@@ -70,8 +69,6 @@ public:
             return true;
         if (below == txn_rcv && above == txn_crt)
             return true;
-        if (below == blk_crt && above == pow_done)
-            return true;
         return false;
     }
 };
@@ -79,14 +76,15 @@ public:
 class Node
 {
 public:
-    int peer_id; // 0 to ...
-    int cpu;     // 0 or 1
-    int speed;   // 0 or 1
+    int peer_id;   // 0 to ...
+    int cpu = 0;   // 0 or 1
+    int speed = 0; // 0 or 1
     int amnt;
+    double hashPower;
     bool blk_crt_pending = false;
     vector<int> peer_nbh;
     set<int> knownTxns;
-    vector<TXN> validatedTxns;
+    queue<Txn> validatedTxns;
     priority_queue<Task, vector<Task>, Compare> tasks;
     vector<Block> blockchain;
 };

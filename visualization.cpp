@@ -7,7 +7,7 @@ int printGraph(vector<Node> miners)
 {
     // Open a file to write the graph description in DOT language
     std::ofstream dotFile("graph.dot");
-    set<pair<int, int > > edges;
+    set<pair<int, int>> edges;
 
     // Write the graph description in DOT language
     dotFile << "graph MyGraph {\n";
@@ -71,10 +71,41 @@ int dumpSimulationResults(vector<Node> &miners)
             outputFile << "Connected to Node ID: " << neighbor << endl;
         }
 
+        outputFile << "Task List:" << endl;
+        auto tasks = node.tasks;
+        while (!tasks.empty())
+        {
+            auto t = tasks.top();
+            tasks.pop();
+            outputFile << "Task Type: " << t.type << " Trigger Time: " << t.trigger_time << " Txn: ";
+            outputFile << "{ID: " << t.txn.txn_id << ", Sender: " << t.txn.sender_id
+                       << ", Receiver: " << t.txn.receiver_id << ", Amount: " << t.txn.amount << "} " << endl;
+            outputFile << "Blockchain size: " << t.blockchain.size() << endl;
+        }
+
         outputFile << endl; // Add a blank line between nodes
     }
 
     // Close the file
     outputFile.close();
     return 0;
+}
+
+void printPeer(Node node)
+{
+    cout << "Node ID: " << node.peer_id << endl;
+    cout << "Blockchain:" << endl;
+    for (const auto &block : node.blockchain)
+    {
+        cout << "Block ID: " << block.blk_id << ", Transactions: ";
+        for (const auto &txn : block.txn_tree)
+        {
+            cout << "{ID: " << txn.txn_id << ", Sender: " << txn.sender_id
+                 << ", Receiver: " << txn.receiver_id << ", Amount: " << txn.amount << "} ";
+        }
+        cout << endl;
+    }
+    cout << "Task Size: " << node.tasks.size() << endl;
+    auto task = node.tasks.top();
+    cout << "Task Type: " << task.type << endl;
 }

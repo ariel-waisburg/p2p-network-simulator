@@ -16,7 +16,6 @@ void dfs(int node, vector<bool> &visited, const vector<vector<int > > &connectio
     }
 };
 
-// Function to check connectedness of the graph using DFS
 bool isNodeVisited(bool v) {
     return v;
 }

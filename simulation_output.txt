@@ -1,122 +1,289 @@
 Node ID: 0
 Blockchain:
 Block ID: 0, Transactions: 
+Block ID: 1, Transactions: {ID: 1, Sender: -1, Receiver: 9, Amount: 50} 
+Block ID: 2, Transactions: {ID: 4, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 3, Transactions: {ID: 8, Sender: -1, Receiver: 7, Amount: 50} {ID: 16979712, Sender: 0, Receiver: 1723969189, Amount: 32766} 
+Block ID: 4, Transactions: {ID: 11, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 5, Transactions: {ID: 15, Sender: -1, Receiver: 0, Amount: 50} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} 
+Block ID: 6, Transactions: {ID: 19, Sender: -1, Receiver: 4, Amount: 50} {ID: 17, Sender: 0, Receiver: 8, Amount: 1} 
+Block ID: 7, Transactions: {ID: 20, Sender: -1, Receiver: 4, Amount: 50} 
+Block ID: 8, Transactions: {ID: 24, Sender: -1, Receiver: 4, Amount: 50} {ID: 23, Sender: 9, Receiver: 11, Amount: 4} 
+Block ID: 9, Transactions: {ID: 28, Sender: -1, Receiver: 0, Amount: 50} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 25, Sender: 7, Receiver: 9, Amount: 3} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} 
+Block ID: 10, Transactions: {ID: 32, Sender: -1, Receiver: 5, Amount: 50} {ID: 29, Sender: 9, Receiver: 5, Amount: 16} 
+Block ID: 11, Transactions: {ID: 33, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 12, Transactions: {ID: 34, Sender: -1, Receiver: 0, Amount: 50} 
+Block ID: 13, Transactions: {ID: 38, Sender: -1, Receiver: 6, Amount: 50} {ID: 35, Sender: 0, Receiver: 5, Amount: 1} 
+Block ID: 14, Transactions: {ID: 42, Sender: -1, Receiver: 4, Amount: 50} {ID: 39, Sender: 6, Receiver: 10, Amount: 11} 
 Peer Relationships:
-Connected to Node ID: 4
+Connected to Node ID: 6
+Connected to Node ID: 1
 Connected to Node ID: 10
-Connected to Node ID: 3
+Task List:
+Task Type: 1 Trigger Time: 53 Txn: {ID: -1603308216, Sender: -56683220, Receiver: -144679224, Amount: -2115142664} 
+Blockchain size: 16
+Task Type: 2 Trigger Time: 1334 Txn: {ID: 16979712, Sender: 0, Receiver: 1723969189, Amount: 32766} 
+Blockchain size: 0
+Task Type: 0 Trigger Time: 8205018 Txn: {ID: -1603308216, Sender: -56683220, Receiver: -144679224, Amount: -2115142664} 
+Blockchain size: 0
 
 Node ID: 1
 Blockchain:
 Block ID: 0, Transactions: 
+Block ID: 1, Transactions: {ID: 1, Sender: -1, Receiver: 9, Amount: 50} 
+Block ID: 2, Transactions: {ID: 4, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 3, Transactions: {ID: 8, Sender: -1, Receiver: 7, Amount: 50} {ID: 16979712, Sender: 0, Receiver: 1723969189, Amount: 32766} 
+Block ID: 4, Transactions: {ID: 11, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 5, Transactions: {ID: 15, Sender: -1, Receiver: 0, Amount: 50} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} 
+Block ID: 6, Transactions: {ID: 19, Sender: -1, Receiver: 4, Amount: 50} {ID: 17, Sender: 0, Receiver: 8, Amount: 1} 
+Block ID: 7, Transactions: {ID: 20, Sender: -1, Receiver: 4, Amount: 50} 
+Block ID: 8, Transactions: {ID: 24, Sender: -1, Receiver: 4, Amount: 50} {ID: 23, Sender: 9, Receiver: 11, Amount: 4} 
+Block ID: 9, Transactions: {ID: 28, Sender: -1, Receiver: 0, Amount: 50} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 25, Sender: 7, Receiver: 9, Amount: 3} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} 
+Block ID: 10, Transactions: {ID: 32, Sender: -1, Receiver: 5, Amount: 50} {ID: 29, Sender: 9, Receiver: 5, Amount: 16} 
+Block ID: 11, Transactions: {ID: 33, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 12, Transactions: {ID: 34, Sender: -1, Receiver: 0, Amount: 50} 
+Block ID: 13, Transactions: {ID: 38, Sender: -1, Receiver: 6, Amount: 50} {ID: 35, Sender: 0, Receiver: 5, Amount: 1} 
+Block ID: 14, Transactions: {ID: 42, Sender: -1, Receiver: 4, Amount: 50} {ID: 39, Sender: 6, Receiver: 10, Amount: 11} 
 Peer Relationships:
-Connected to Node ID: 12
-Connected to Node ID: 3
-Connected to Node ID: 4
+Connected to Node ID: 0
+Connected to Node ID: 2
+Connected to Node ID: 10
+Task List:
+Task Type: 1 Trigger Time: 45 Txn: {ID: -1603308216, Sender: -56683220, Receiver: -144679224, Amount: -2115142664} 
+Blockchain size: 16
+Task Type: 0 Trigger Time: 1350775 Txn: {ID: -1603308216, Sender: -56683220, Receiver: -144679224, Amount: -2115142664} 
+Blockchain size: 0
 
 Node ID: 2
 Blockchain:
 Block ID: 0, Transactions: 
+Block ID: 1, Transactions: {ID: 1, Sender: -1, Receiver: 9, Amount: 50} 
+Block ID: 2, Transactions: {ID: 4, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 3, Transactions: {ID: 8, Sender: -1, Receiver: 7, Amount: 50} {ID: 16979712, Sender: 0, Receiver: 1723969189, Amount: 32766} 
+Block ID: 4, Transactions: {ID: 11, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 5, Transactions: {ID: 15, Sender: -1, Receiver: 0, Amount: 50} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} 
+Block ID: 6, Transactions: {ID: 19, Sender: -1, Receiver: 4, Amount: 50} {ID: 17, Sender: 0, Receiver: 8, Amount: 1} 
+Block ID: 7, Transactions: {ID: 20, Sender: -1, Receiver: 4, Amount: 50} 
+Block ID: 8, Transactions: {ID: 24, Sender: -1, Receiver: 4, Amount: 50} {ID: 23, Sender: 9, Receiver: 11, Amount: 4} 
+Block ID: 9, Transactions: {ID: 28, Sender: -1, Receiver: 0, Amount: 50} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 25, Sender: 7, Receiver: 9, Amount: 3} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} 
+Block ID: 10, Transactions: {ID: 32, Sender: -1, Receiver: 5, Amount: 50} {ID: 29, Sender: 9, Receiver: 5, Amount: 16} 
+Block ID: 11, Transactions: {ID: 33, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 12, Transactions: {ID: 34, Sender: -1, Receiver: 0, Amount: 50} 
+Block ID: 13, Transactions: {ID: 38, Sender: -1, Receiver: 6, Amount: 50} {ID: 35, Sender: 0, Receiver: 5, Amount: 1} 
+Block ID: 14, Transactions: {ID: 42, Sender: -1, Receiver: 4, Amount: 50} {ID: 39, Sender: 6, Receiver: 10, Amount: 11} 
 Peer Relationships:
-Connected to Node ID: 3
+Connected to Node ID: 1
+Connected to Node ID: 4
 Connected to Node ID: 5
-Connected to Node ID: 10
+Task List:
+Task Type: 0 Trigger Time: 82871379 Txn: {ID: -1603308216, Sender: -56683220, Receiver: -144679224, Amount: -2115142664} 
+Blockchain size: 0
 
 Node ID: 3
 Blockchain:
 Block ID: 0, Transactions: 
+Block ID: 1, Transactions: {ID: 1, Sender: -1, Receiver: 9, Amount: 50} 
+Block ID: 2, Transactions: {ID: 4, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 3, Transactions: {ID: 8, Sender: -1, Receiver: 7, Amount: 50} {ID: 16979712, Sender: 0, Receiver: 1723969189, Amount: 32766} 
+Block ID: 4, Transactions: {ID: 11, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 5, Transactions: {ID: 15, Sender: -1, Receiver: 0, Amount: 50} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} 
+Block ID: 6, Transactions: {ID: 19, Sender: -1, Receiver: 4, Amount: 50} {ID: 17, Sender: 0, Receiver: 8, Amount: 1} 
+Block ID: 7, Transactions: {ID: 20, Sender: -1, Receiver: 4, Amount: 50} 
+Block ID: 8, Transactions: {ID: 24, Sender: -1, Receiver: 4, Amount: 50} {ID: 23, Sender: 9, Receiver: 11, Amount: 4} 
+Block ID: 9, Transactions: {ID: 28, Sender: -1, Receiver: 0, Amount: 50} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 25, Sender: 7, Receiver: 9, Amount: 3} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} 
+Block ID: 10, Transactions: {ID: 32, Sender: -1, Receiver: 5, Amount: 50} {ID: 29, Sender: 9, Receiver: 5, Amount: 16} 
+Block ID: 11, Transactions: {ID: 33, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 12, Transactions: {ID: 34, Sender: -1, Receiver: 0, Amount: 50} 
+Block ID: 13, Transactions: {ID: 38, Sender: -1, Receiver: 6, Amount: 50} {ID: 35, Sender: 0, Receiver: 5, Amount: 1} 
+Block ID: 14, Transactions: {ID: 42, Sender: -1, Receiver: 4, Amount: 50} {ID: 39, Sender: 6, Receiver: 10, Amount: 11} 
 Peer Relationships:
-Connected to Node ID: 1
-Connected to Node ID: 2
-Connected to Node ID: 0
+Connected to Node ID: 4
+Connected to Node ID: 9
+Connected to Node ID: 8
+Task List:
+Task Type: 0 Trigger Time: 69451995 Txn: {ID: -1603308216, Sender: -56683220, Receiver: -144679224, Amount: -2115142664} 
+Blockchain size: 0
 
 Node ID: 4
 Blockchain:
 Block ID: 0, Transactions: 
+Block ID: 1, Transactions: {ID: 1, Sender: -1, Receiver: 9, Amount: 50} 
+Block ID: 2, Transactions: {ID: 4, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 3, Transactions: {ID: 8, Sender: -1, Receiver: 7, Amount: 50} {ID: 16979712, Sender: 0, Receiver: 1723969189, Amount: 32766} 
+Block ID: 4, Transactions: {ID: 11, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 5, Transactions: {ID: 15, Sender: -1, Receiver: 0, Amount: 50} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} 
+Block ID: 6, Transactions: {ID: 19, Sender: -1, Receiver: 4, Amount: 50} {ID: 17, Sender: 0, Receiver: 8, Amount: 1} 
+Block ID: 7, Transactions: {ID: 20, Sender: -1, Receiver: 4, Amount: 50} 
+Block ID: 8, Transactions: {ID: 24, Sender: -1, Receiver: 4, Amount: 50} {ID: 23, Sender: 9, Receiver: 11, Amount: 4} 
+Block ID: 9, Transactions: {ID: 28, Sender: -1, Receiver: 0, Amount: 50} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 25, Sender: 7, Receiver: 9, Amount: 3} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} 
+Block ID: 10, Transactions: {ID: 32, Sender: -1, Receiver: 5, Amount: 50} {ID: 29, Sender: 9, Receiver: 5, Amount: 16} 
+Block ID: 11, Transactions: {ID: 33, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 12, Transactions: {ID: 34, Sender: -1, Receiver: 0, Amount: 50} 
+Block ID: 13, Transactions: {ID: 38, Sender: -1, Receiver: 6, Amount: 50} {ID: 35, Sender: 0, Receiver: 5, Amount: 1} 
+Block ID: 14, Transactions: {ID: 42, Sender: -1, Receiver: 4, Amount: 50} {ID: 39, Sender: 6, Receiver: 10, Amount: 11} 
 Peer Relationships:
-Connected to Node ID: 14
-Connected to Node ID: 0
-Connected to Node ID: 1
+Connected to Node ID: 2
+Connected to Node ID: 3
+Connected to Node ID: 7
+Task List:
+Task Type: 0 Trigger Time: 4777146 Txn: {ID: -1603308216, Sender: -56683220, Receiver: -144679224, Amount: -2115142664} 
+Blockchain size: 0
 
 Node ID: 5
 Blockchain:
 Block ID: 0, Transactions: 
+Block ID: 1, Transactions: {ID: 1, Sender: -1, Receiver: 9, Amount: 50} 
+Block ID: 2, Transactions: {ID: 4, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 3, Transactions: {ID: 8, Sender: -1, Receiver: 7, Amount: 50} {ID: 16979712, Sender: 0, Receiver: 1723969189, Amount: 32766} 
+Block ID: 4, Transactions: {ID: 11, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 5, Transactions: {ID: 15, Sender: -1, Receiver: 0, Amount: 50} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} 
+Block ID: 6, Transactions: {ID: 19, Sender: -1, Receiver: 4, Amount: 50} {ID: 17, Sender: 0, Receiver: 8, Amount: 1} 
+Block ID: 7, Transactions: {ID: 20, Sender: -1, Receiver: 4, Amount: 50} 
+Block ID: 8, Transactions: {ID: 24, Sender: -1, Receiver: 4, Amount: 50} {ID: 23, Sender: 9, Receiver: 11, Amount: 4} 
+Block ID: 9, Transactions: {ID: 28, Sender: -1, Receiver: 0, Amount: 50} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 25, Sender: 7, Receiver: 9, Amount: 3} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} 
+Block ID: 10, Transactions: {ID: 32, Sender: -1, Receiver: 5, Amount: 50} {ID: 29, Sender: 9, Receiver: 5, Amount: 16} 
+Block ID: 11, Transactions: {ID: 33, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 12, Transactions: {ID: 34, Sender: -1, Receiver: 0, Amount: 50} 
+Block ID: 13, Transactions: {ID: 38, Sender: -1, Receiver: 6, Amount: 50} {ID: 35, Sender: 0, Receiver: 5, Amount: 1} 
+Block ID: 14, Transactions: {ID: 42, Sender: -1, Receiver: 4, Amount: 50} {ID: 39, Sender: 6, Receiver: 10, Amount: 11} 
 Peer Relationships:
+Connected to Node ID: 10
+Connected to Node ID: 7
 Connected to Node ID: 2
-Connected to Node ID: 8
-Connected to Node ID: 9
+Task List:
+Task Type: 1 Trigger Time: 45 Txn: {ID: -1603308216, Sender: -56683220, Receiver: -144679224, Amount: -2115142664} 
+Blockchain size: 16
+Task Type: 0 Trigger Time: 1900621 Txn: {ID: -1603308216, Sender: -56683220, Receiver: -144679224, Amount: -2115142664} 
+Blockchain size: 0
 
 Node ID: 6
 Blockchain:
 Block ID: 0, Transactions: 
+Block ID: 1, Transactions: {ID: 1, Sender: -1, Receiver: 9, Amount: 50} 
+Block ID: 2, Transactions: {ID: 4, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 3, Transactions: {ID: 8, Sender: -1, Receiver: 7, Amount: 50} {ID: 16979712, Sender: 0, Receiver: 1723969189, Amount: 32766} 
+Block ID: 4, Transactions: {ID: 11, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 5, Transactions: {ID: 15, Sender: -1, Receiver: 0, Amount: 50} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} 
+Block ID: 6, Transactions: {ID: 19, Sender: -1, Receiver: 4, Amount: 50} {ID: 17, Sender: 0, Receiver: 8, Amount: 1} 
+Block ID: 7, Transactions: {ID: 20, Sender: -1, Receiver: 4, Amount: 50} 
+Block ID: 8, Transactions: {ID: 24, Sender: -1, Receiver: 4, Amount: 50} {ID: 23, Sender: 9, Receiver: 11, Amount: 4} 
+Block ID: 9, Transactions: {ID: 28, Sender: -1, Receiver: 0, Amount: 50} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 25, Sender: 7, Receiver: 9, Amount: 3} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} 
+Block ID: 10, Transactions: {ID: 32, Sender: -1, Receiver: 5, Amount: 50} {ID: 29, Sender: 9, Receiver: 5, Amount: 16} 
+Block ID: 11, Transactions: {ID: 33, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 12, Transactions: {ID: 34, Sender: -1, Receiver: 0, Amount: 50} 
+Block ID: 13, Transactions: {ID: 38, Sender: -1, Receiver: 6, Amount: 50} {ID: 35, Sender: 0, Receiver: 5, Amount: 1} 
+Block ID: 14, Transactions: {ID: 42, Sender: -1, Receiver: 4, Amount: 50} {ID: 39, Sender: 6, Receiver: 10, Amount: 11} 
 Peer Relationships:
-Connected to Node ID: 9
-Connected to Node ID: 13
 Connected to Node ID: 8
+Connected to Node ID: 0
+Connected to Node ID: 9
+Task List:
+Task Type: 0 Trigger Time: 1887149 Txn: {ID: -1603308216, Sender: -56683220, Receiver: -144679224, Amount: -2115142664} 
+Blockchain size: 0
 
 Node ID: 7
 Blockchain:
 Block ID: 0, Transactions: 
+Block ID: 1, Transactions: {ID: 1, Sender: -1, Receiver: 9, Amount: 50} 
+Block ID: 2, Transactions: {ID: 4, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 3, Transactions: {ID: 8, Sender: -1, Receiver: 7, Amount: 50} {ID: 16979712, Sender: 0, Receiver: 1723969189, Amount: 32766} 
+Block ID: 4, Transactions: {ID: 11, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 5, Transactions: {ID: 15, Sender: -1, Receiver: 0, Amount: 50} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} 
+Block ID: 6, Transactions: {ID: 19, Sender: -1, Receiver: 4, Amount: 50} {ID: 17, Sender: 0, Receiver: 8, Amount: 1} 
+Block ID: 7, Transactions: {ID: 20, Sender: -1, Receiver: 4, Amount: 50} 
+Block ID: 8, Transactions: {ID: 24, Sender: -1, Receiver: 4, Amount: 50} {ID: 23, Sender: 9, Receiver: 11, Amount: 4} 
+Block ID: 9, Transactions: {ID: 28, Sender: -1, Receiver: 0, Amount: 50} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 25, Sender: 7, Receiver: 9, Amount: 3} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} 
+Block ID: 10, Transactions: {ID: 32, Sender: -1, Receiver: 5, Amount: 50} {ID: 29, Sender: 9, Receiver: 5, Amount: 16} 
+Block ID: 11, Transactions: {ID: 33, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 12, Transactions: {ID: 34, Sender: -1, Receiver: 0, Amount: 50} 
+Block ID: 13, Transactions: {ID: 38, Sender: -1, Receiver: 6, Amount: 50} {ID: 35, Sender: 0, Receiver: 5, Amount: 1} 
+Block ID: 14, Transactions: {ID: 42, Sender: -1, Receiver: 4, Amount: 50} {ID: 39, Sender: 6, Receiver: 10, Amount: 11} 
 Peer Relationships:
-Connected to Node ID: 11
-Connected to Node ID: 14
-Connected to Node ID: 13
+Connected to Node ID: 5
+Connected to Node ID: 8
+Connected to Node ID: 4
+Task List:
+Task Type: 0 Trigger Time: 4122828 Txn: {ID: -1603308216, Sender: -56683220, Receiver: -144679224, Amount: -2115142664} 
+Blockchain size: 0
 
 Node ID: 8
 Blockchain:
 Block ID: 0, Transactions: 
+Block ID: 1, Transactions: {ID: 1, Sender: -1, Receiver: 9, Amount: 50} 
+Block ID: 2, Transactions: {ID: 4, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 3, Transactions: {ID: 8, Sender: -1, Receiver: 7, Amount: 50} {ID: 16979712, Sender: 0, Receiver: 1723969189, Amount: 32766} 
+Block ID: 4, Transactions: {ID: 11, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 5, Transactions: {ID: 15, Sender: -1, Receiver: 0, Amount: 50} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} 
+Block ID: 6, Transactions: {ID: 19, Sender: -1, Receiver: 4, Amount: 50} {ID: 17, Sender: 0, Receiver: 8, Amount: 1} 
+Block ID: 7, Transactions: {ID: 20, Sender: -1, Receiver: 4, Amount: 50} 
+Block ID: 8, Transactions: {ID: 24, Sender: -1, Receiver: 4, Amount: 50} {ID: 23, Sender: 9, Receiver: 11, Amount: 4} 
+Block ID: 9, Transactions: {ID: 28, Sender: -1, Receiver: 0, Amount: 50} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 25, Sender: 7, Receiver: 9, Amount: 3} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} 
+Block ID: 10, Transactions: {ID: 32, Sender: -1, Receiver: 5, Amount: 50} {ID: 29, Sender: 9, Receiver: 5, Amount: 16} 
+Block ID: 11, Transactions: {ID: 33, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 12, Transactions: {ID: 34, Sender: -1, Receiver: 0, Amount: 50} 
+Block ID: 13, Transactions: {ID: 38, Sender: -1, Receiver: 6, Amount: 50} {ID: 35, Sender: 0, Receiver: 5, Amount: 1} 
+Block ID: 14, Transactions: {ID: 42, Sender: -1, Receiver: 4, Amount: 50} {ID: 39, Sender: 6, Receiver: 10, Amount: 11} 
 Peer Relationships:
-Connected to Node ID: 5
-Connected to Node ID: 11
+Connected to Node ID: 7
 Connected to Node ID: 6
+Connected to Node ID: 3
+Task List:
+Task Type: 2 Trigger Time: 743 Txn: {ID: 16979712, Sender: 0, Receiver: 1723969189, Amount: 32766} 
+Blockchain size: 0
+Task Type: 0 Trigger Time: 16972675 Txn: {ID: -1603308216, Sender: -56683220, Receiver: -144679224, Amount: -2115142664} 
+Blockchain size: 0
 
 Node ID: 9
 Blockchain:
 Block ID: 0, Transactions: 
+Block ID: 1, Transactions: {ID: 1, Sender: -1, Receiver: 9, Amount: 50} 
+Block ID: 2, Transactions: {ID: 4, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 3, Transactions: {ID: 8, Sender: -1, Receiver: 7, Amount: 50} {ID: 16979712, Sender: 0, Receiver: 1723969189, Amount: 32766} 
+Block ID: 4, Transactions: {ID: 11, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 5, Transactions: {ID: 15, Sender: -1, Receiver: 0, Amount: 50} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} 
+Block ID: 6, Transactions: {ID: 19, Sender: -1, Receiver: 4, Amount: 50} {ID: 17, Sender: 0, Receiver: 8, Amount: 1} 
+Block ID: 7, Transactions: {ID: 20, Sender: -1, Receiver: 4, Amount: 50} 
+Block ID: 8, Transactions: {ID: 24, Sender: -1, Receiver: 4, Amount: 50} {ID: 23, Sender: 9, Receiver: 11, Amount: 4} 
+Block ID: 9, Transactions: {ID: 28, Sender: -1, Receiver: 0, Amount: 50} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 25, Sender: 7, Receiver: 9, Amount: 3} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} 
+Block ID: 10, Transactions: {ID: 32, Sender: -1, Receiver: 5, Amount: 50} {ID: 29, Sender: 9, Receiver: 5, Amount: 16} 
+Block ID: 11, Transactions: {ID: 33, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 12, Transactions: {ID: 34, Sender: -1, Receiver: 0, Amount: 50} 
+Block ID: 13, Transactions: {ID: 38, Sender: -1, Receiver: 6, Amount: 50} {ID: 35, Sender: 0, Receiver: 5, Amount: 1} 
+Block ID: 14, Transactions: {ID: 42, Sender: -1, Receiver: 4, Amount: 50} {ID: 39, Sender: 6, Receiver: 10, Amount: 11} 
 Peer Relationships:
+Connected to Node ID: 3
 Connected to Node ID: 10
 Connected to Node ID: 6
-Connected to Node ID: 5
+Task List:
+Task Type: 1 Trigger Time: 43 Txn: {ID: -1603308216, Sender: -56683220, Receiver: -144679224, Amount: -2115142664} 
+Blockchain size: 16
+Task Type: 0 Trigger Time: 2023498 Txn: {ID: -1603308216, Sender: -56683220, Receiver: -144679224, Amount: -2115142664} 
+Blockchain size: 0
 
 Node ID: 10
 Blockchain:
 Block ID: 0, Transactions: 
+Block ID: 1, Transactions: {ID: 1, Sender: -1, Receiver: 9, Amount: 50} 
+Block ID: 2, Transactions: {ID: 4, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 3, Transactions: {ID: 8, Sender: -1, Receiver: 7, Amount: 50} {ID: 16979712, Sender: 0, Receiver: 1723969189, Amount: 32766} 
+Block ID: 4, Transactions: {ID: 11, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 5, Transactions: {ID: 15, Sender: -1, Receiver: 0, Amount: 50} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 5, Sender: 7, Receiver: 4, Amount: 7} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} {ID: 14, Sender: 7, Receiver: 5, Amount: 10} 
+Block ID: 6, Transactions: {ID: 19, Sender: -1, Receiver: 4, Amount: 50} {ID: 17, Sender: 0, Receiver: 8, Amount: 1} 
+Block ID: 7, Transactions: {ID: 20, Sender: -1, Receiver: 4, Amount: 50} 
+Block ID: 8, Transactions: {ID: 24, Sender: -1, Receiver: 4, Amount: 50} {ID: 23, Sender: 9, Receiver: 11, Amount: 4} 
+Block ID: 9, Transactions: {ID: 28, Sender: -1, Receiver: 0, Amount: 50} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 21, Sender: 4, Receiver: 0, Amount: 15} {ID: 25, Sender: 7, Receiver: 9, Amount: 3} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} {ID: 26, Sender: 5, Receiver: 2, Amount: 2} 
+Block ID: 10, Transactions: {ID: 32, Sender: -1, Receiver: 5, Amount: 50} {ID: 29, Sender: 9, Receiver: 5, Amount: 16} 
+Block ID: 11, Transactions: {ID: 33, Sender: -1, Receiver: 7, Amount: 50} 
+Block ID: 12, Transactions: {ID: 34, Sender: -1, Receiver: 0, Amount: 50} 
+Block ID: 13, Transactions: {ID: 38, Sender: -1, Receiver: 6, Amount: 50} {ID: 35, Sender: 0, Receiver: 5, Amount: 1} 
+Block ID: 14, Transactions: {ID: 42, Sender: -1, Receiver: 4, Amount: 50} {ID: 39, Sender: 6, Receiver: 10, Amount: 11} 
+Block ID: 15, Transactions: {ID: 43, Sender: -1, Receiver: 10, Amount: 50} {ID: 41, Sender: 4, Receiver: 3, Amount: 2} 
 Peer Relationships:
-Connected to Node ID: 0
 Connected to Node ID: 9
-Connected to Node ID: 2
-
-Node ID: 11
-Blockchain:
-Block ID: 0, Transactions: 
-Peer Relationships:
-Connected to Node ID: 8
-Connected to Node ID: 7
-Connected to Node ID: 13
-
-Node ID: 12
-Blockchain:
-Block ID: 0, Transactions: 
-Peer Relationships:
-Connected to Node ID: 13
+Connected to Node ID: 5
+Connected to Node ID: 0
 Connected to Node ID: 1
-Connected to Node ID: 14
-
-Node ID: 13
-Blockchain:
-Block ID: 0, Transactions: 
-Peer Relationships:
-Connected to Node ID: 6
-Connected to Node ID: 12
-Connected to Node ID: 11
-Connected to Node ID: 7
-
-Node ID: 14
-Blockchain:
-Block ID: 0, Transactions: 
-Block ID: 1, Transactions: {ID: 1, Sender: -1, Receiver: 14, Amount: 50} 
-Peer Relationships:
-Connected to Node ID: 7
-Connected to Node ID: 4
-Connected to Node ID: 12
+Task List:
+Task Type: 2 Trigger Time: 34 Txn: {ID: 16979712, Sender: 0, Receiver: 1723969189, Amount: 32766} 
+Blockchain size: 0
 
