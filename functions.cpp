@@ -28,11 +28,11 @@ double latency(Node sender, Node receiver, char event, double prop_delay, mt1993
 
     if (event == 't')
     {
-        m = 8 * 1000;
+        m = 8 * 1024;
     }
     else if (event == 'b')
     {
-        m = sender.blockchain[0].txn_tree.size() * 8 * 1000; // assuming in the block class we can access quantity of transactions
+        m = sender.blockchain[0].txn_tree.size() * 8 * 1024;
     }
     else
     {
