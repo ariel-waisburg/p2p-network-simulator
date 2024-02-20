@@ -26,7 +26,7 @@ void manager(vector<Node> &miners, int time_limit, int txn_interval, double lamb
 
     while (global_time < time_limit)
     {
-        priority_queue<P, vector<P>, greater<P>> pq;
+        priority_queue<P, vector<P>, greater<P > > pq;
         for (int i = 0; i < n_peers; i++)
         {
             if (!miners[i].blk_crt_pending)
