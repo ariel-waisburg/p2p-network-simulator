@@ -7,7 +7,7 @@ int printGraph(vector<Node> miners)
 {
     // Open a file to write the graph description in DOT language
     std::ofstream dotFile("graph.dot");
-    set<pair<int, int>> edges;
+    set<pair<int, int > > edges;
 
     // Write the graph description in DOT language
     dotFile << "graph MyGraph {\n";
@@ -15,10 +15,10 @@ int printGraph(vector<Node> miners)
     {
         for (int j = 0; j < miners[i].peer_nbh.size(); j++)
         {
-            if (edges.find({miners[i].peer_nbh[j], i}) == edges.end())
+            if (edges.find(std::make_pair(miners[i].peer_nbh[j], i)) == edges.end())
             {
                 dotFile << "    " << i << " -- " << miners[i].peer_nbh[j] << ";\n";
-                edges.insert({i, miners[i].peer_nbh[j]});
+                edges.insert(make_pair(i, miners[i].peer_nbh[j]));
             }
         }
     }

@@ -4,7 +4,7 @@
 #include <vector>
 using namespace std;
 
-void dfs(int node, vector<bool> &visited, const vector<vector<int>> &connections)
+void dfs(int node, vector<bool> &visited, const vector<vector<int > > &connections)
 {
     visited[node] = true;
     for (int neighbor : connections[node])
@@ -17,7 +17,12 @@ void dfs(int node, vector<bool> &visited, const vector<vector<int>> &connections
 };
 
 // Function to check connectedness of the graph using DFS
-bool isConnected(const vector<vector<int>> &connections, int numNodes)
+bool isNodeVisited(bool v) {
+    return v;
+}
+
+// Function to check connectedness of the graph using DFS
+bool isConnected(const vector<vector<int > > &connections, int numNodes)
 {
     vector<bool> visited(numNodes, false);
 
@@ -30,6 +35,5 @@ bool isConnected(const vector<vector<int>> &connections, int numNodes)
         }
     }
     // Check if all nodes are visited
-    return all_of(visited.begin(), visited.end(), [](bool v)
-                  { return v; });
+    return all_of(visited.begin(), visited.end(), isNodeVisited);
 }
