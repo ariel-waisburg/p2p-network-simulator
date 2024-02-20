@@ -7,7 +7,7 @@ int printGraph(vector<Node> miners)
 {
     // Open a file to write the graph description in DOT language
     std::ofstream dotFile("graph.dot");
-    set<pair<int, int>> edges;
+    set<pair<int, int > > edges;
 
     // Write the graph description in DOT language
     dotFile << "graph MyGraph {\n";

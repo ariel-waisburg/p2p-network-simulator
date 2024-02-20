@@ -29,7 +29,7 @@ void manager(vector<Node> &miners, int time_limit, int txn_interval, double lamb
     while (global_time < time_limit)
     {
         // Priority queue to track tasks of miners
-        priority_queue<P, vector<P>, greater<P>> pq;
+        priority_queue<P, vector<P>, greater<P > > pq;
 
         // Loop through each peer and schedule tasks
         for (int i = 0; i < n_peers; i++)

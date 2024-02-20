@@ -73,10 +73,10 @@ int generateRandom(int min, int max)
 }
 
 // Function to create a random network topology using adjacency matrix
-vector<vector<int>> createRandomTopology(int numPeers)
+vector<vector<int > > createRandomTopology(int numPeers)
 {
     mt19937 gen(time(0) + seed++);
-    vector<vector<int>> connections(numPeers);
+    vector<vector<int > > connections(numPeers);
 
     vector<int> indexes(numPeers);
     iota(indexes.begin(), indexes.end(), 0);
@@ -105,7 +105,7 @@ vector<Node> initialization(int numPeers, int global_time)
 {
 
     // Create an initial random network
-    vector<vector<int>> list_connections = createRandomTopology(numPeers);
+    vector<vector<int > > list_connections = createRandomTopology(numPeers);
 
     // Check if the graph is connected, recreate the graph until it is connected
     while (!isConnected(list_connections, numPeers))
