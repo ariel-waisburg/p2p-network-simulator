@@ -29,6 +29,7 @@ int main()
     cin >> time_limit;
 
     vector<Node> miners = initialization(n_peers, global_time);
+    
     set<long> txnSet; // Global set to see any used txns behaving as UTXO
     long blkId = 0;   // Unique Id for blocks created in increasing format
     long txnId = 0;   // Unique Id for transactions created in increasing format

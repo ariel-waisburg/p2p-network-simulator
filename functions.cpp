@@ -103,7 +103,16 @@ vector<vector<int > > createRandomTopology(int numPeers) {
 
         shuffle(possibleConnections.begin(), possibleConnections.end(), gen);
 
-        connections[i].insert(connections[i].end(), possibleConnections.begin(), possibleConnections.begin() + numConnections);
+        int count = 0;
+        // Ensure bidirectional connections
+        for (int j = 0; j < numConnections && count < 6; ++j) {
+            if (connections[i].size() >= 6) break; // Limit the number of connections for the current node
+            if (connections[possibleConnections[j]].size() < 6) { // Check if the other node can accept more connections
+                connections[i].push_back(possibleConnections[j]);
+                connections[possibleConnections[j]].push_back(i); // Bidirectional connection
+                ++count;
+            }
+        }
     }
 
     return connections;
