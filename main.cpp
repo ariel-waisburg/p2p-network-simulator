@@ -7,9 +7,11 @@
 #include <fstream>
 #include "models.cpp"
 #include "functions.cpp"
+#include "visualization.cpp"
 #define Pll pair<long, long>
 using namespace std;
 
+// Current time of simulation in ms
 long global_time = 0;
 
 // Will separate the logic for manager is needed.
@@ -23,16 +25,18 @@ int main()
 
     cout << "\nEnter the number of peers in the network: ";
     cin >> n_peers;
-    cout << "\nMean time of interarrival: ";
+    cout << "\nMean time of interarrival in seconds: ";
     cin >> lambda;
-    cout << "\nDuration in milli-seconds for the simulation to run: ";
+    cout << "\nDuration for the simulation to run in seconds: ";
     cin >> time_limit;
 
     vector<Node> miners = initialization(n_peers, global_time);
     set<long> txnSet; // Global set to see any used txns behaving as UTXO
-    long blkId = 0;   // Unique Id for blocks created in increasing format
-    long txnId = 0;   // Unique Id for transactions created in increasing format
+    long blkId = 1;   // Unique Id for blocks created in increasing format
+    long txnId = 1;   // Unique Id for transactions created in increasing format
 
+    printGraph(miners);
+    return 0;
     static mt19937 gen(rand());
     uniform_real_distribution<double> distribution(0.01, 0.5);
 

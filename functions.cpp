@@ -1,4 +1,5 @@
 #include "models.cpp"
+#include "utils.cpp"
 #include <random>
 #include <iostream>
 #include <algorithm>
@@ -11,14 +12,14 @@ using namespace std;
 double latency(Node sender, Node receiver, char event, double prop_delay, mt19937 &gen)
 {
     double m;
-    Block b;
+
     if (event == 't')
     {
         m = 8 * 1000;
     }
     else if (event == 'b')
     {
-        m = b.txn_tree.size() * 8 * 1000; // assuming in the block class we can access quantity of transactions
+        m = sender.blockchain[0].txn_tree.size() * 8 * 1000; // assuming in the block class we can access quantity of transactions
     }
     else
     {
@@ -57,54 +58,31 @@ int generateRandom(int min, int max)
     return distribution(gen);
 }
 
-// Function to check connectedness of the graph using DFS
-bool isConnected(const vector<vector<int>> &connections, int numNodes)
-{
-    vector<bool> visited(numNodes, false);
-
-    function<void(int)> dfs = [&](int node)
-    {
-        visited[node] = true;
-        for (int neighbor : connections[node])
-        {
-            if (!visited[neighbor])
-            {
-                dfs(neighbor);
-            }
-        }
-    };
-    // Check connectivity for each node individually
-    for (int node = 0; node < numNodes; ++node)
-    {
-        if (!visited[node])
-        {
-            dfs(node);
-        }
-    }
-    // Check if all nodes are visited
-    return all_of(visited.begin(), visited.end(), [](bool v)
-                  { return v; });
-}
-
 // Function to create a random network topology using adjacency matrix
 vector<vector<int>> createRandomTopology(int numPeers)
 {
     mt19937 gen(time(0));
     vector<vector<int>> connections(numPeers);
 
-    for (int i = 0; i < numPeers; ++i)
+    vector<int> indexes(numPeers);
+    iota(indexes.begin(), indexes.end(), 0);
+    shuffle(indexes.begin(), indexes.end(), gen);
+
+    for (int i = 0; i < numPeers; i++)
     {
-        int numConnections = gen() % 4 + 3;
-
-        vector<int> possibleConnections(numPeers);
-        iota(possibleConnections.begin(), possibleConnections.end(), 0);
-        possibleConnections.erase(remove(possibleConnections.begin(), possibleConnections.end(), i), possibleConnections.end());
-
-        shuffle(possibleConnections.begin(), possibleConnections.end(), gen);
-
-        connections[i].insert(connections[i].end(), possibleConnections.begin(), possibleConnections.begin() + numConnections);
+        connections[indexes[i]].push_back(indexes[(i + 1) % numPeers]);
+        connections[indexes[i]].push_back(indexes[(i - 1 + numPeers) % numPeers]);
     }
-
+    for (int i = 0; i < numPeers / 2; i++)
+    {
+        connections[indexes[i]].push_back(indexes[(i + numPeers / 2)]);
+        connections[indexes[(i + numPeers / 2)]].push_back(indexes[i]);
+    }
+    if (numPeers % 2 == 1)
+    {
+        connections[indexes[numPeers - 1]].push_back(indexes[numPeers / 2]);
+        connections[indexes[numPeers / 2]].push_back(indexes[numPeers - 1]);
+    }
     return connections;
 }
 
@@ -125,9 +103,9 @@ vector<Node> initialization(long numPeers, long global_time)
     float z_slow;
     float z_lowcpu;
 
-    cout << "\nEnter the percent of slow peer in the network: %";
+    cout << "\nEnter the percentage of slow peers in the network (%): ";
     cin >> z_slow;
-    cout << "\nEnter the percent of low cpu in the network: %";
+    cout << "\nEnter the percentage of low cpu in the network (%): ";
     cin >> z_lowcpu;
 
     float z_fastcpu = 100 - z_lowcpu;
