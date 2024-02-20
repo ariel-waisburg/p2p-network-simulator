@@ -12,16 +12,17 @@
 
 using namespace std;
 int seed = 0;
+
 // Function to generate a random number from an exponential distribution
 double generateExponential(double mean)
 {
+    // Mersenne Twister pseudo-random number engine
     mt19937 gen(time(0) + seed++);
     exponential_distribution<> dist(1.0 / mean);
     return dist(gen);
 }
 
-// latency .cpp
-
+// generate propogation delay
 double generatePropDelay()
 {
     mt19937 gen(time(0) + seed++);
@@ -29,6 +30,7 @@ double generatePropDelay()
     return distribution(gen);
 }
 
+// Function to calculate latency between nodes for different events
 double latency(Node sender, Node receiver, char event, double prop_delay)
 {
     double m;
@@ -61,8 +63,6 @@ double latency(Node sender, Node receiver, char event, double prop_delay)
 
     return l_ij;
 }
-
-// Node cpp
 
 // Function to generate a random integer within a given range
 int generateRandom(int min, int max)
@@ -100,6 +100,7 @@ vector<vector<int>> createRandomTopology(int numPeers)
     return connections;
 }
 
+// Function for network initialization
 vector<Node> initialization(int numPeers, int global_time)
 {
 
@@ -182,6 +183,7 @@ vector<Node> initialization(int numPeers, int global_time)
     return peers;
 }
 
+// Function to prepare a new block
 Block prepareNewBlock(int id, int crt_time)
 {
     Block block;
@@ -190,8 +192,7 @@ Block prepareNewBlock(int id, int crt_time)
     return block;
 }
 
-// task . cpp
-
+// Function to prepare task for block creation
 Task prepareTaskForBlockCreate(int time)
 {
     Task task;
@@ -200,6 +201,7 @@ Task prepareTaskForBlockCreate(int time)
     return task;
 }
 
+// Function to prepare task for block recieve
 Task prepareTaskForBlockRecieve(int time, vector<Block> blockchain)
 {
     Task task;
@@ -209,6 +211,7 @@ Task prepareTaskForBlockRecieve(int time, vector<Block> blockchain)
     return task;
 }
 
+// Function to prepare task for transaction recieve
 Task prepareTaskForTxnRcv(int time, Txn txn)
 {
     Task task;
@@ -218,6 +221,7 @@ Task prepareTaskForTxnRcv(int time, Txn txn)
     return task;
 }
 
+// Function to prepare task for transaction creation
 Task prepareTaskForTxnCrt(int time)
 {
     Task task;
@@ -225,8 +229,6 @@ Task prepareTaskForTxnCrt(int time)
     task.trigger_time = time;
     return task;
 }
-
-// transactions . cpp
 
 // Function to create transactions between random peers with exponential interarrival times
 Txn createTransaction(Node miner, int id, int n_peers)
@@ -247,6 +249,7 @@ Txn createTransaction(Node miner, int id, int n_peers)
     return txn;
 }
 
+// Function to create a coinbase transaction
 Txn createCoinbaseTransaction(int id, int txnId)
 {
     Txn txn;
@@ -258,6 +261,7 @@ Txn createCoinbaseTransaction(int id, int txnId)
     return txn;
 }
 
+// Function to provide available valid transactions for a new block
 vector<Txn> provideValidTransactions(Node miner)
 {
     set<int> txnId;
@@ -282,6 +286,7 @@ vector<Txn> provideValidTransactions(Node miner)
     return txns;
 }
 
+// Function to verify transactions in a block
 bool verifyTransactions(Block block)
 {
     vector<Txn> txns = block.txn_tree;
@@ -293,6 +298,7 @@ bool verifyTransactions(Block block)
     return true;
 }
 
+// Function to prepare tasks for transaction creation
 map<int, Task> prepareTasksForTxnCrt(int n_peers)
 {
     map<int, Task> tasks;

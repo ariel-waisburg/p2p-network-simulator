@@ -11,24 +11,30 @@
 #define P pair<int, int>
 using namespace std;
 
-// Current time of simulation in ms
+// Global variable to track current time of simulation in milliseconds
 int global_time = 0;
 int last_txn_generation = 0;
 
-// Will separate the logic for manager is needed.
+// Logic for managing the simulation
 void manager(vector<Node> &miners, int time_limit, int txn_interval, double lambda)
 {
+    // Variables to store user input
     int n_peers = miners.size();
-    int blkId = 1; // Unique Id for blocks created in increasing format
-    int txnId = 1; // Unique Id for transactions created in increasing format
-    double prop_delay = generatePropDelay();
+    int blkId = 1;                           // Unique Id for blocks created in increasing format
+    int txnId = 1;                           // Unique Id for transactions created in increasing format
+    double prop_delay = generatePropDelay(); // Generate a random propagation delay
     char ch;
 
+    // Simulation loop
     while (global_time < time_limit)
     {
+        // Priority queue to track tasks of miners
         priority_queue<P, vector<P>, greater<P>> pq;
+
+        // Loop through each peer and schedule tasks
         for (int i = 0; i < n_peers; i++)
         {
+            // Schedule block creation task if not pending
             if (!miners[i].blk_crt_pending)
             {
                 double delay = generateExponential(lambda / miners[i].hashPower);
@@ -39,6 +45,7 @@ void manager(vector<Node> &miners, int time_limit, int txn_interval, double lamb
             pq.push(make_pair(miners[i].tasks.top().trigger_time, i));
         }
 
+        // Get the smallest time from priority queue
         int smallest_time = pq.top().first;
 
         while (!pq.empty())
@@ -63,6 +70,7 @@ void manager(vector<Node> &miners, int time_limit, int txn_interval, double lamb
             // nodes happnes then introduce task with correct time in
             // that other miners task list
 
+            // Handle different task types
             switch (task.type)
             {
             case blk_rcv:
@@ -83,6 +91,8 @@ void manager(vector<Node> &miners, int time_limit, int txn_interval, double lamb
                     }
 
                     bool allCorrect = true;
+
+                    // Perform proof-of-work validation
                     for (int i = j; i < task.blockchain.size(); i++)
                     {
                         // Check if the receieved blockchain has valid transactions after fork
@@ -126,11 +136,12 @@ void manager(vector<Node> &miners, int time_limit, int txn_interval, double lamb
             break;
             case blk_crt:
             {
+                // Prepare new block and coinbase transaction
                 Block newBlock = prepareNewBlock(blkId++, global_time + smallest_time);
                 Txn reward = createCoinbaseTransaction(miners[idx].peer_id, txnId++);
                 newBlock.txn_tree.push_back(reward);
 
-                // Pick all the valid transactions that are not yet used
+                // Select valid transactions for the block
                 vector<Txn> validTxns = provideValidTransactions(miners[idx]);
                 for (auto txn : validTxns)
                 {
@@ -141,6 +152,7 @@ void manager(vector<Node> &miners, int time_limit, int txn_interval, double lamb
 
                 cout << "pow_done successful" << endl;
 
+                // Add new block to miner's blockchain and propagate to neighbors
                 for (int i = 0; i < neighbours.size(); i++)
                 {
                     double delay = latency(miners[idx], miners[neighbours[i]], 'b', prop_delay);
@@ -154,13 +166,14 @@ void manager(vector<Node> &miners, int time_limit, int txn_interval, double lamb
             break;
             case txn_crt:
             {
+                // Create transaction and validate sender balance
                 Txn txn = createTransaction(miners[idx], txnId++, n_peers);
                 if (txn.sender_bal >= txn.amount)
                 {
                     miners[idx].knownTxns.insert(txn.txn_id);
                     miners[idx].validatedTxns.push(task.txn);
 
-                    // Send it to all the peers
+                    // Send transaction to all peers
                     for (int i = 0; i < neighbours.size(); i++)
                     {
                         double delay = latency(miners[idx], miners[neighbours[i]], 't', prop_delay);
@@ -173,11 +186,13 @@ void manager(vector<Node> &miners, int time_limit, int txn_interval, double lamb
             break;
             case txn_rcv:
             {
+                // Validate sender balance
                 if (task.txn.sender_bal >= task.txn.amount)
                 {
                     miners[idx].validatedTxns.push(task.txn);
                     if (task.txn.receiver_id != miners[idx].peer_id)
                     {
+                        // Send transaction to all peers
                         for (int i = 0; i < neighbours.size(); i++)
                         {
                             auto knownTxns = miners[neighbours[i]].knownTxns;
@@ -220,11 +235,13 @@ void manager(vector<Node> &miners, int time_limit, int txn_interval, double lamb
 
 int main()
 {
+    // Variables to store user input
     int n_peers;
     double time_limit;
     double lambda;
     double txn_arrival;
 
+    // User input for simulation parameters
     cout << "\nEnter the number of peers in the network: ";
     cin >> n_peers;
     cout << "\nMean time of block interarrival in seconds: ";
@@ -234,6 +251,7 @@ int main()
     cout << "\nDuration for the simulation to run in seconds: ";
     cin >> time_limit;
 
+    // Initialize miners and simulation parameters
     vector<Node> miners = initialization(n_peers, global_time);
 
     // Run the simulation
