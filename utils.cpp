@@ -4,6 +4,7 @@
 #include <vector>
 using namespace std;
 
+// Depth-first search to traverse the graph and mark visited nodes
 void dfs(int node, vector<bool> &visited, const vector<vector<int > > &connections)
 {
     visited[node] = true;
@@ -16,7 +17,7 @@ void dfs(int node, vector<bool> &visited, const vector<vector<int > > &connectio
     }
 };
 
-// Function to check connectedness of the graph using DFS
+// Function to check if a node is visited
 bool isNodeVisited(bool v) {
     return v;
 }
@@ -34,6 +35,7 @@ bool isConnected(const vector<vector<int > > &connections, int numNodes)
             dfs(node, visited, connections);
         }
     }
+    
     // Check if all nodes are visited
     return all_of(visited.begin(), visited.end(), isNodeVisited);
 }

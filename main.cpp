@@ -11,18 +11,20 @@
 #define Pll pair<long, long>
 using namespace std;
 
-// Current time of simulation in ms
+// Global variable to track current time of simulation in milliseconds
 long global_time = 0;
 
-// Will separate the logic for manager is needed.
+// Function declaration for manager logic
 void manager(long time_limit, vector<Node> miners) {}
 
 int main()
 {
-    long n_peers;
-    long time_limit;
-    long lambda;
+    // Variables to store user input
+    long n_peers; // Number of peers in the network
+    long time_limit; // Duration for the simulation to run in seconds
+    long lambda; // Mean time of interarrival in seconds
 
+    // User input for simulation parameters
     cout << "\nEnter the number of peers in the network: ";
     cin >> n_peers;
     cout << "\nMean time of interarrival in seconds: ";
@@ -30,32 +32,41 @@ int main()
     cout << "\nDuration for the simulation to run in seconds: ";
     cin >> time_limit;
 
-    vector<Node> miners = initialization(n_peers, global_time);
-    set<long> txnSet; // Global set to see any used txns behaving as UTXO
-    long blkId = 1;   // Unique Id for blocks created in increasing format
-    long txnId = 1;   // Unique Id for transactions created in increasing format
+    // Initialize miners and simulation parameters
+    vector<Node> miners = initialization(n_peers, global_time); // Initialize network nodes
+    set<long> txnSet; // Global set to track used transactions as UTXOs
+    long blkId = 1; // Unique ID for blocks created in increasing format
+    long txnId = 1; // Unique ID for transactions created in increasing format
 
-    static mt19937 gen(rand());
-    uniform_real_distribution<double> distribution(0.01, 0.5);
+    // Random number generator setup
+    static mt19937 gen(rand()); // Mersenne Twister pseudo-random number engine
+    uniform_real_distribution<double> distribution(0.01, 0.5); // Uniform distribution for propagation delay
 
-    // Generate a random number
+    // Generate a random propagation delay
     double prop_delay = distribution(gen);
 
+    // Simulation loop
     while (global_time < time_limit)
     {
+        // Priority queue to track tasks of miners
         priority_queue<Pll, vector<Pll>, greater<Pll > > miner_idx;
+        
+        // Loop through each peer and schedule tasks
         for (long i = 0; i < n_peers; i++)
         {
+            // Schedule block creation task if not pending
             if (!miners[i].blk_crt_pending)
             {
-                miners[i].tasks.push(prepareTaskForBlockCreate(generateExponential(lambda) * 1000)); // TODO - Use better randomization
+                miners[i].tasks.push(prepareTaskForBlockCreate(generateExponential(lambda) * 1000));
                 miners[i].blk_crt_pending = true;
             }
-            miner_idx.push(make_pair(miners[i].tasks.top().trigger_time, i));
+            miner_idx.push(make_pair(miners[i].tasks.top().trigger_time, i)); // Push task into priority queue
         }
 
+        // Get the smallest time from priority queue
         long smallest_time = miner_idx.top().first;
 
+        // Process tasks with smallest time
         while (!miner_idx.empty())
         {
             long current_task_time = miner_idx.top().first;
@@ -75,16 +86,18 @@ int main()
             nodes happnes then introduce task with correct time in
             that other miners task list */
 
+            // Handle different task types
             switch (task.type)
             {
             case blk_crt:
             {
+                // Prepare new block and coinbase transaction
                 Block newBlock = prepareNewBlock(blkId++, global_time + smallest_time);
                 TXN reward = createCoinbaseTransaction(miners[idx].peer_id, txnId++);
                 newBlock.txn_tree.push_back(reward);
                 txnSet.insert(reward.txn_id);
 
-                // Pick all the valid transactions that are not yet used
+                // Select valid transactions for the block
                 for (long i = 0; i < txns.size(); i++)
                 {
                     if (txnSet.find(txns[i].txn_id) == txnSet.end())
@@ -92,7 +105,7 @@ int main()
                         txnSet.insert(txns[i].txn_id);
                         newBlock.txn_tree.push_back(txns[i]);
                         if (newBlock.txn_tree.size() == 1024)
-                        { // break after 1MB
+                        { // Break after 1MB
                             miners[idx].validatedTxns.erase(miners[idx].validatedTxns.begin());
                             break;
                         }
@@ -100,6 +113,7 @@ int main()
                     miners[idx].validatedTxns.erase(miners[idx].validatedTxns.begin());
                 }
 
+                // Add new block to miner's blockchain and propagate to neighbors
                 miners[idx].blockchain.push_back(newBlock);
                 for (long i = 0; i < neighbours.size(); i++)
                 {
@@ -121,6 +135,7 @@ int main()
             break;
             case pow_done:
             {
+                // Perform proof-of-work validation
                 long j = 0;
                 for (long i = 0; i < miners[idx].blockchain.size(); i++)
                 {
@@ -169,6 +184,7 @@ int main()
             break;
             case txn_crt:
             {
+                // Create transaction and validate sender balance
                 TXN txn = createTransaction(miners[idx], txnId++, n_peers);
                 if (txn.sender_bal >= txn.amount)
                 {
@@ -191,6 +207,7 @@ int main()
                     miners[idx].validatedTxns.push_back(task.txn);
                     if (task.txn.receiver_id != miners[idx].peer_id)
                     {
+                        // Send transaction to all peers
                         for (long i = 0; i < neighbours.size(); i++)
                         {
                             auto knownTxns = miners[neighbours[i]].knownTxns;

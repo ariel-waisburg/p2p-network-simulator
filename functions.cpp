@@ -21,7 +21,7 @@ double generateExponential(double mean)
     return dist(gen);
 }
 
-// latency .cpp
+// Function to calculate latency between nodes for different events
 double latency(Node sender, Node receiver, char event, double prop_delay, mt19937 &gen)
 {
     double m;
@@ -38,6 +38,7 @@ double latency(Node sender, Node receiver, char event, double prop_delay, mt1993
     {
         throw invalid_argument("event must be t or b");
     }
+    
     double c;
     if (sender.speed && receiver.speed)
     {
@@ -47,14 +48,13 @@ double latency(Node sender, Node receiver, char event, double prop_delay, mt1993
     {
         c = 5 * 1000000;
     }
+    
     double d_mean = 96 * 1000 / c;
     double d = generateExponential(d_mean);
     double l_ij = prop_delay + m / c + d;
 
     return l_ij;
 }
-
-// Node cpp
 
 // Function to generate a random integer within a given range
 int generateRandom(int min, int max) {
@@ -91,9 +91,9 @@ vector<vector<int > > createRandomTopology(int numPeers) {
     return connections;
 }
 
+// Function for network initialization
 vector<Node> initialization(long numPeers, long global_time)
 {
-    
     // Create an initial random network 
     vector<vector<int > > list_connections = createRandomTopology(numPeers);
     
@@ -143,6 +143,7 @@ vector<Node> initialization(long numPeers, long global_time)
     return peers;
 }
 
+// Function to update balance of a peer
 void updateBalance(vector<Node> p, int peer_id, int amount, int n_peers)
 {
     for (int i = 0; i < n_peers; i++)
@@ -154,6 +155,7 @@ void updateBalance(vector<Node> p, int peer_id, int amount, int n_peers)
     }
 };
 
+// Function to get balance of a peer
 int getBalance(vector<Node> p, int peer_id, int n_peers)
 {
     for (int i = 0; i < n_peers; i++)
@@ -167,6 +169,7 @@ int getBalance(vector<Node> p, int peer_id, int n_peers)
     return 0;
 };
 
+// Function to prepare a new block
 Block prepareNewBlock(int id, int crt_time){
     Block block;
     block.blk_id = id;
@@ -174,8 +177,7 @@ Block prepareNewBlock(int id, int crt_time){
     return block;
 }
 
-// task . cpp
-
+// Functions for task preparation
 Task prepareTaskForBlockCreate(long time)
 {
     Task task;
@@ -219,14 +221,12 @@ Task prepareTaskForPowDone(long time, Task rcvTask)
     return task;
 }
 
-// transactions . cpp
-
 // Function to create transactions between random peers with exponential interarrival times
 TXN createTransaction(Node miner, int id, long n_peers)
 {
     TXN txn;
 
-    srand(static_cast<unsigned>(time(0)));           // Seed for random number generation
+    srand(static_cast<unsigned>(time(0))); // Seed for random number generation
     int receiver_id = generateRandom(0, n_peers); // Select a random receiver ID
     while (receiver_id == miner.peer_id)
         receiver_id = generateRandom(0, n_peers);
@@ -240,6 +240,7 @@ TXN createTransaction(Node miner, int id, long n_peers)
     return txn;
 }
 
+// Function to create a coinbase transaction
 TXN createCoinbaseTransaction(int id, int txnId)
 {
     TXN txn;
@@ -251,6 +252,7 @@ TXN createCoinbaseTransaction(int id, int txnId)
     return txn;
 }
 
+// Function to verify transactions in a block
 bool verifyTransactions(Block block)
 {
     vector<TXN> txns = block.txn_tree;
@@ -262,6 +264,7 @@ bool verifyTransactions(Block block)
     return true;
 }
 
+// Function to prepare tasks for transaction creation
 map<int, Task> prepareTasksForTxnCrt(long n_peers)
 {
     map<int, Task> tasks;

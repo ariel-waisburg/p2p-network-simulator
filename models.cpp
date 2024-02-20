@@ -8,6 +8,7 @@
 
 using namespace std;
 
+// Class representing a transaction
 class TXN
 {
 public:
@@ -19,6 +20,7 @@ public:
     bool coinbase = false;
 };
 
+// Class representing a block in the blockchain
 class Block
 {
 public:
@@ -27,6 +29,7 @@ public:
     int crt_time;
 };
 
+// Enum defining different types of tasks
 enum task_type
 {
     blk_rcv,
@@ -36,6 +39,7 @@ enum task_type
     pow_done
 };
 
+// Class representing a task to be performed by a node
 class Task
 {
 public:
@@ -45,6 +49,7 @@ public:
     TXN txn;
 };
 
+// Functor class to compare tasks for priority queue
 class Compare
 {
 public:
@@ -76,6 +81,7 @@ public:
     }
 };
 
+// Class representing a node in the network
 class Node
 {
 public:
