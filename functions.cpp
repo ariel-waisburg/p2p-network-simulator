@@ -13,6 +13,12 @@
 using namespace std;
 
 // latency .cpp
+double generatePropDelay(mt19937 &gen)
+{
+    uniform_real_distribution<double> distribution(0.01, 0.5);
+    return distribution(gen);
+}
+
 double latency(Node sender, Node receiver, char event, double prop_delay, mt19937 &gen)
 {
     double m;
@@ -54,7 +60,8 @@ double latency(Node sender, Node receiver, char event, double prop_delay, mt1993
 // Node cpp
 
 // Function to generate a random integer within a given range
-int generateRandom(int min, int max) {
+int generateRandom(int min, int max)
+{
     static random_device rd;
     static mt19937 gen(rd());
     uniform_int_distribution<int> distribution(min, max);
@@ -62,9 +69,10 @@ int generateRandom(int min, int max) {
 }
 
 // Function to create a random network topology using adjacency matrix
-vector<vector<int > > createRandomTopology(int numPeers) {
+vector<vector<int>> createRandomTopology(int numPeers)
+{
     mt19937 gen(time(0));
-    vector<vector<int > > connections(numPeers);
+    vector<vector<int>> connections(numPeers);
 
     vector<int> indexes(numPeers);
     iota(indexes.begin(), indexes.end(), 0);
@@ -88,14 +96,15 @@ vector<vector<int > > createRandomTopology(int numPeers) {
     return connections;
 }
 
-vector<Node> initialization(long numPeers, long global_time)
+vector<Node> initialization(int numPeers, long global_time)
 {
-    
-    // Create an initial random network 
-    vector<vector<int > > list_connections = createRandomTopology(numPeers);
-    
+
+    // Create an initial random network
+    vector<vector<int>> list_connections = createRandomTopology(numPeers);
+
     // Check if the graph is connected, recreate the graph until it is connected
-    while (!isConnected(list_connections, numPeers)) {
+    while (!isConnected(list_connections, numPeers))
+    {
         cout << "Generated graph is not connected. Recreating..." << endl;
         list_connections = createRandomTopology(numPeers);
     }
@@ -116,17 +125,16 @@ vector<Node> initialization(long numPeers, long global_time)
     Block genesis;
     genesis.blk_id = 0;
     genesis.crt_time = global_time;
-    genesis.txn_tree = vector<TXN>();  // Assuming TXN is the type of elements in txn_tree
-
+    genesis.txn_tree = vector<TXN>(); // Assuming TXN is the type of elements in txn_tree
 
     for (int i = 0; i < numPeers; i++)
     {
         Node peer;
         peer.peer_id = i;
         peer.cpu = (i < z_slow * numPeers) ? peer.cpu = 0 : 1;
-        peer.speed =  (i < z_lowcpu * numPeers) ? 0 : 1;
+        peer.speed = (i < z_lowcpu * numPeers) ? 0 : 1;
         peer.blockchain = vector<Block>(1, genesis);
-        peer.peer_nbh = vector<long>();  // Assuming long is the type of elements in peer_nbh
+        peer.peer_nbh = vector<int>(); // Assuming long is the type of elements in peer_nbh
         cout << peer.peer_id << " is connected to: ";
         for (int j = 0; j < list_connections[i].size(); j++)
         {
@@ -136,7 +144,7 @@ vector<Node> initialization(long numPeers, long global_time)
         cout << endl;
         peers.push_back(peer);
     }
-    
+
     return peers;
 }
 
@@ -164,7 +172,8 @@ int getBalance(vector<Node> p, int peer_id, int n_peers)
     return 0;
 };
 
-Block prepareNewBlock(int id, int crt_time){
+Block prepareNewBlock(int id, int crt_time)
+{
     Block block;
     block.blk_id = id;
     block.crt_time = crt_time;
@@ -173,7 +182,7 @@ Block prepareNewBlock(int id, int crt_time){
 
 // task . cpp
 
-Task prepareTaskForBlockCreate(long time)
+Task prepareTaskForBlockCreate(int time)
 {
     Task task;
     task.type = blk_crt;
@@ -181,7 +190,7 @@ Task prepareTaskForBlockCreate(long time)
     return task;
 }
 
-Task prepareTaskForBlockRecieve(double time, vector<Block> blockchain)
+Task prepareTaskForBlockRecieve(int time, vector<Block> blockchain)
 {
     Task task;
     task.type = blk_rcv;
@@ -190,7 +199,7 @@ Task prepareTaskForBlockRecieve(double time, vector<Block> blockchain)
     return task;
 }
 
-Task prepareTaskForTxnRcv(long time, TXN txn)
+Task prepareTaskForTxnRcv(int time, TXN txn)
 {
     Task task;
     task.type = txn_rcv;
@@ -199,7 +208,7 @@ Task prepareTaskForTxnRcv(long time, TXN txn)
     return task;
 }
 
-Task prepareTaskForTxnCrt(long time)
+Task prepareTaskForTxnCrt(int time)
 {
     Task task;
     task.type = txn_crt;
@@ -207,7 +216,7 @@ Task prepareTaskForTxnCrt(long time)
     return task;
 }
 
-Task prepareTaskForPowDone(long time, Task rcvTask)
+Task prepareTaskForPowDone(int time, Task rcvTask)
 {
     Task task;
     task.type = pow_done;
@@ -232,7 +241,7 @@ double generateExponential(double mean)
 }
 
 // Function to create transactions between random peers with exponential interarrival times
-TXN createTransaction(Node miner, int id, long n_peers)
+TXN createTransaction(Node miner, int id, int n_peers)
 {
     TXN txn;
 
@@ -272,7 +281,7 @@ bool verifyTransactions(Block block)
     return true;
 }
 
-map<int, Task> prepareTasksForTxnCrt(long n_peers)
+map<int, Task> prepareTasksForTxnCrt(int n_peers)
 {
     map<int, Task> tasks;
     set<int> ids;

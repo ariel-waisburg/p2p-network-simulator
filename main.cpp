@@ -8,43 +8,24 @@
 #include "models.cpp"
 #include "functions.cpp"
 #include "visualization.cpp"
-#define Pll pair<long, long>
+#define Pll pair<int, int>
 using namespace std;
 
 // Current time of simulation in ms
 long global_time = 0;
 
 // Will separate the logic for manager is needed.
-void manager(long time_limit, vector<Node> miners) {}
-
-int main()
-{
-    long n_peers;
-    long time_limit;
-    long lambda;
-
-    cout << "\nEnter the number of peers in the network: ";
-    cin >> n_peers;
-    cout << "\nMean time of interarrival in seconds: ";
-    cin >> lambda;
-    cout << "\nDuration for the simulation to run in seconds: ";
-    cin >> time_limit;
-
-    vector<Node> miners = initialization(n_peers, global_time);
-    set<long> txnSet; // Global set to see any used txns behaving as UTXO
-    long blkId = 1;   // Unique Id for blocks created in increasing format
-    long txnId = 1;   // Unique Id for transactions created in increasing format
-
-    static mt19937 gen(rand());
-    uniform_real_distribution<double> distribution(0.01, 0.5);
-
-    // Generate a random number
-    double prop_delay = distribution(gen);
+void manager(vector<Node> &miners, long time_limit, double lambda, mt19937 &gen) {
+    long n_peers = miners.size();
+    set<int> txnSet; // Global set to see any used txns behaving as UTXO
+    int blkId = 1;   // Unique Id for blocks created in increasing format
+    int txnId = 1;   // Unique Id for transactions created in increasing format
+    double prop_delay = generatePropDelay(gen);
 
     while (global_time < time_limit)
     {
         priority_queue<Pll, vector<Pll>, greater<Pll > > miner_idx;
-        for (long i = 0; i < n_peers; i++)
+        for (int i = 0; i < n_peers; i++)
         {
             if (!miners[i].blk_crt_pending)
             {
@@ -54,17 +35,17 @@ int main()
             miner_idx.push(make_pair(miners[i].tasks.top().trigger_time, i));
         }
 
-        long smallest_time = miner_idx.top().first;
+        int smallest_time = miner_idx.top().first;
 
         while (!miner_idx.empty())
         {
-            long current_task_time = miner_idx.top().first;
+            int current_task_time = miner_idx.top().first;
             if (current_task_time > smallest_time)
                 break;
 
-            long idx = miner_idx.top().second;
+            int idx = miner_idx.top().second;
             Task task = miners[idx].tasks.top();
-            vector<long> neighbours = miners[idx].peer_nbh;
+            vector<int> neighbours = miners[idx].peer_nbh;
             vector<TXN> txns = miners[idx].validatedTxns;
 
             /* Do whatever operation you have to do with task.
@@ -85,7 +66,7 @@ int main()
                 txnSet.insert(reward.txn_id);
 
                 // Pick all the valid transactions that are not yet used
-                for (long i = 0; i < txns.size(); i++)
+                for (int i = 0; i < txns.size(); i++)
                 {
                     if (txnSet.find(txns[i].txn_id) == txnSet.end())
                     {
@@ -101,7 +82,7 @@ int main()
                 }
 
                 miners[idx].blockchain.push_back(newBlock);
-                for (long i = 0; i < neighbours.size(); i++)
+                for (int i = 0; i < neighbours.size(); i++)
                 {
                     Task rcvTask = prepareTaskForBlockRecieve(latency(miners[idx], miners[neighbours[i]], 'b', prop_delay, gen) * 1000, miners[idx].blockchain); // Use Ariel's latency code here to determine time
                     miners[neighbours[i]].tasks.push(rcvTask);
@@ -121,8 +102,8 @@ int main()
             break;
             case pow_done:
             {
-                long j = 0;
-                for (long i = 0; i < miners[idx].blockchain.size(); i++)
+                int j = 0;
+                for (int i = 0; i < miners[idx].blockchain.size(); i++)
                 {
                     if (miners[idx].blockchain[i].blk_id == task.blockchain[i].blk_id)
                     {
@@ -135,7 +116,7 @@ int main()
                 }
 
                 bool allCorrect = true;
-                for (long i = j; i < task.blockchain.size(); i++)
+                for (int i = j; i < task.blockchain.size(); i++)
                 {
                     // Check if the receieved blockchain has valid transactions
                     if (!verifyTransactions(task.blockchain[i]))
@@ -176,7 +157,7 @@ int main()
                     miners[idx].validatedTxns.push_back(task.txn);
 
                     // Send it to all the peers
-                    for (long i = 0; i < neighbours.size(); i++)
+                    for (int i = 0; i < neighbours.size(); i++)
                     {
                         Task rcvTask = prepareTaskForTxnRcv(latency(miners[idx], miners[neighbours[i]], 't', prop_delay, gen) * 1000, txn);
                         miners[neighbours[i]].tasks.push(rcvTask);
@@ -191,7 +172,7 @@ int main()
                     miners[idx].validatedTxns.push_back(task.txn);
                     if (task.txn.receiver_id != miners[idx].peer_id)
                     {
-                        for (long i = 0; i < neighbours.size(); i++)
+                        for (int i = 0; i < neighbours.size(); i++)
                         {
                             auto knownTxns = miners[neighbours[i]].knownTxns;
                             if (knownTxns.find(task.txn.txn_id) == knownTxns.end())
@@ -223,50 +204,32 @@ int main()
             miners[idx].tasks.push(task);
         }
     }
+}
+
+int main()
+{
+    int n_peers;
+    long time_limit;
+    int lambda;
+
+    cout << "\nEnter the number of peers in the network: ";
+    cin >> n_peers;
+    cout << "\nMean time of interarrival in seconds: ";
+    cin >> lambda;
+    cout << "\nDuration for the simulation to run in seconds: ";
+    cin >> time_limit;
+
+    vector<Node> miners = initialization(n_peers, global_time);
+
+    static mt19937 gen(rand());
+
+    // Run the simulation
+    manager(miners, time_limit, lambda, gen);
 
     cout << "\nSimulation ended at time " << global_time << " seconds";
 
     cout << "\nPrinting network topology\n";
     printGraph(miners);
 
-    // Open a file for writing
-    ofstream outputFile("simulation_output.txt");
-
-    // Check if the file is opened successfully
-    if (!outputFile.is_open())
-    {
-        cout << "Error opening file for writing!" << endl;
-        return 1; // Return error code
-    }
-
-    // Traverse through each node in miners vector
-    for (const auto &node : miners)
-    {
-        // Write node ID and blockchain list
-        outputFile << "Node ID: " << node.peer_id << endl;
-        outputFile << "Blockchain:" << endl;
-        for (const auto &block : node.blockchain)
-        {
-            outputFile << "Block ID: " << block.blk_id << ", Transactions: ";
-            for (const auto &txn : block.txn_tree)
-            {
-                outputFile << "{ID: " << txn.txn_id << ", Sender: " << txn.sender_id
-                           << ", Receiver: " << txn.receiver_id << ", Amount: " << txn.amount << "} ";
-            }
-            outputFile << endl;
-        }
-
-        // Write peer relationships
-        outputFile << "Peer Relationships:" << endl;
-        for (const auto &neighbor : node.peer_nbh)
-        {
-            outputFile << "Connected to Node ID: " << neighbor << endl;
-        }
-
-        outputFile << endl; // Add a blank line between nodes
-    }
-
-    // Close the file
-    outputFile.close();
-    return 0;
+    return dumpSimulationResults(miners);
 }

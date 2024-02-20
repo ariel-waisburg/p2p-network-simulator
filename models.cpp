@@ -40,7 +40,7 @@ class Task
 {
 public:
     task_type type;
-    long trigger_time;
+    int trigger_time;
     vector<Block> blockchain;
     TXN txn;
 };
@@ -84,7 +84,7 @@ public:
     int speed;   // 0 or 1
     int amnt;
     bool blk_crt_pending = false;
-    vector<long> peer_nbh;
+    vector<int> peer_nbh;
     set<int> knownTxns;
     vector<TXN> validatedTxns;
     priority_queue<Task, vector<Task>, Compare> tasks;
