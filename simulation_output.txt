@@ -2,106 +2,121 @@ Node ID: 0
 Blockchain:
 Block ID: 0, Transactions: 
 Peer Relationships:
-Connected to Node ID: 5
 Connected to Node ID: 4
+Connected to Node ID: 10
 Connected to Node ID: 3
-Connected to Node ID: 2
-Connected to Node ID: 7
-Connected to Node ID: 1
 
 Node ID: 1
 Blockchain:
 Block ID: 0, Transactions: 
 Peer Relationships:
-Connected to Node ID: 7
-Connected to Node ID: 6
+Connected to Node ID: 12
 Connected to Node ID: 3
-Connected to Node ID: 8
-Connected to Node ID: 0
-Connected to Node ID: 5
+Connected to Node ID: 4
 
 Node ID: 2
 Blockchain:
 Block ID: 0, Transactions: 
 Peer Relationships:
-Connected to Node ID: 0
-Connected to Node ID: 8
-Connected to Node ID: 9
 Connected to Node ID: 3
-Connected to Node ID: 6
-Connected to Node ID: 8
+Connected to Node ID: 5
+Connected to Node ID: 10
 
 Node ID: 3
 Blockchain:
 Block ID: 0, Transactions: 
 Peer Relationships:
-Connected to Node ID: 0
 Connected to Node ID: 1
 Connected to Node ID: 2
-Connected to Node ID: 6
-Connected to Node ID: 4
-Connected to Node ID: 7
+Connected to Node ID: 0
 
 Node ID: 4
 Blockchain:
 Block ID: 0, Transactions: 
 Peer Relationships:
+Connected to Node ID: 14
 Connected to Node ID: 0
-Connected to Node ID: 3
-Connected to Node ID: 7
-Connected to Node ID: 5
-Connected to Node ID: 6
-Connected to Node ID: 9
+Connected to Node ID: 1
 
 Node ID: 5
 Blockchain:
 Block ID: 0, Transactions: 
 Peer Relationships:
-Connected to Node ID: 0
-Connected to Node ID: 1
-Connected to Node ID: 4
+Connected to Node ID: 2
 Connected to Node ID: 8
-Connected to Node ID: 7
-Connected to Node ID: 6
+Connected to Node ID: 9
 
 Node ID: 6
 Blockchain:
 Block ID: 0, Transactions: 
 Peer Relationships:
-Connected to Node ID: 1
-Connected to Node ID: 3
-Connected to Node ID: 4
+Connected to Node ID: 9
+Connected to Node ID: 13
 Connected to Node ID: 8
-Connected to Node ID: 5
-Connected to Node ID: 2
 
 Node ID: 7
 Blockchain:
 Block ID: 0, Transactions: 
 Peer Relationships:
-Connected to Node ID: 0
-Connected to Node ID: 1
-Connected to Node ID: 3
-Connected to Node ID: 4
-Connected to Node ID: 5
-Connected to Node ID: 8
+Connected to Node ID: 11
+Connected to Node ID: 14
+Connected to Node ID: 13
 
 Node ID: 8
 Blockchain:
 Block ID: 0, Transactions: 
 Peer Relationships:
-Connected to Node ID: 1
-Connected to Node ID: 2
 Connected to Node ID: 5
+Connected to Node ID: 11
 Connected to Node ID: 6
-Connected to Node ID: 7
-Connected to Node ID: 2
 
 Node ID: 9
 Blockchain:
 Block ID: 0, Transactions: 
-Block ID: 0, Transactions: {ID: 0, Sender: -1, Receiver: 9, Amount: 50} 
 Peer Relationships:
+Connected to Node ID: 10
+Connected to Node ID: 6
+Connected to Node ID: 5
+
+Node ID: 10
+Blockchain:
+Block ID: 0, Transactions: 
+Peer Relationships:
+Connected to Node ID: 0
+Connected to Node ID: 9
 Connected to Node ID: 2
+
+Node ID: 11
+Blockchain:
+Block ID: 0, Transactions: 
+Peer Relationships:
+Connected to Node ID: 8
+Connected to Node ID: 7
+Connected to Node ID: 13
+
+Node ID: 12
+Blockchain:
+Block ID: 0, Transactions: 
+Peer Relationships:
+Connected to Node ID: 13
+Connected to Node ID: 1
+Connected to Node ID: 14
+
+Node ID: 13
+Blockchain:
+Block ID: 0, Transactions: 
+Peer Relationships:
+Connected to Node ID: 6
+Connected to Node ID: 12
+Connected to Node ID: 11
+Connected to Node ID: 7
+
+Node ID: 14
+Blockchain:
+Block ID: 0, Transactions: 
+Block ID: 1, Transactions: {ID: 1, Sender: -1, Receiver: 14, Amount: 50} 
+Peer Relationships:
+Connected to Node ID: 7
 Connected to Node ID: 4
+Connected to Node ID: 12
 

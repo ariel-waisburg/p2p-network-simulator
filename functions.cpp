@@ -12,6 +12,15 @@
 
 using namespace std;
 
+// Function to generate a random number from an exponential distribution
+double generateExponential(double mean)
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::exponential_distribution<> dist(1.0 / mean);
+    return dist(gen);
+}
+
 // latency .cpp
 double generatePropDelay(mt19937 &gen)
 {
@@ -25,11 +34,11 @@ double latency(Node sender, Node receiver, char event, double prop_delay, mt1993
 
     if (event == 't')
     {
-        m = 8 * 1000;
+        m = 8 * 1024;
     }
     else if (event == 'b')
     {
-        m = sender.blockchain[0].txn_tree.size() * 8 * 1000; // assuming in the block class we can access quantity of transactions
+        m = sender.blockchain[0].txn_tree.size() * 8 * 1024;
     }
     else
     {
@@ -45,13 +54,7 @@ double latency(Node sender, Node receiver, char event, double prop_delay, mt1993
         c = 5 * 1000000;
     }
     double d_mean = 96 * 1000 / c;
-
-    random_device rd;
-    mt19937 rnd_gen(rd());
-    exponential_distribution<double> distribution(1 / d_mean);
-
-    double d = distribution(gen);
-
+    double d = generateExponential(d_mean);
     double l_ij = prop_delay + m / c + d;
 
     return l_ij;
@@ -227,30 +230,17 @@ Task prepareTaskForPowDone(int time, Task rcvTask)
 
 // transactions . cpp
 
-// Function to generate a random integer within a given range
-int generateRandomInt(int min, int max)
-{
-    return min + rand() % (max - min + 1);
-}
-
-// Function to generate a random number from an exponential distribution
-double generateExponential(double mean)
-{
-    double u = rand() / (RAND_MAX + 1.0);
-    return -mean * log(1 - u);
-}
-
 // Function to create transactions between random peers with exponential interarrival times
 TXN createTransaction(Node miner, int id, int n_peers)
 {
     TXN txn;
 
     srand(static_cast<unsigned>(time(0)));           // Seed for random number generation
-    int receiver_id = generateRandomInt(0, n_peers); // Select a random receiver ID
+    int receiver_id = generateRandom(0, n_peers); // Select a random receiver ID
     while (receiver_id == miner.peer_id)
-        receiver_id = generateRandomInt(0, n_peers);
+        receiver_id = generateRandom(0, n_peers);
 
-    txn.amount = generateRandomInt(1, 20); // Create a random amount between 1 to 20
+    txn.amount = generateRandom(1, 20); // Create a random amount between 1 to 20
     txn.sender_id = miner.peer_id;
     txn.sender_bal = miner.amnt;
     txn.receiver_id = receiver_id;
