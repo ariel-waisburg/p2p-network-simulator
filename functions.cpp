@@ -1,24 +1,38 @@
 #include "models.cpp"
+#include "utils.cpp"
 #include <random>
 #include <iostream>
 #include <algorithm>
 #include <numeric>
 #include <functional>
 #include <time.h>
+#include <vector>
+#include <stdbool.h>
+#include <set>
+
 using namespace std;
+
+// Function to generate a random number from an exponential distribution
+double generateExponential(double mean)
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::exponential_distribution<> dist(1.0 / mean);
+    return dist(gen);
+}
 
 // latency .cpp
 double latency(Node sender, Node receiver, char event, double prop_delay, mt19937 &gen)
 {
     double m;
-    Block b;
+
     if (event == 't')
     {
         m = 8 * 1000;
     }
     else if (event == 'b')
     {
-        m = b.txn_tree.size() * 8 * 1000; // assuming in the block class we can access quantity of transactions
+        m = sender.blockchain[0].txn_tree.size() * 8 * 1000; // assuming in the block class we can access quantity of transactions
     }
     else
     {
@@ -43,75 +57,48 @@ double latency(Node sender, Node receiver, char event, double prop_delay, mt1993
 // Node cpp
 
 // Function to generate a random integer within a given range
-int generateRandom(int min, int max)
-{
+int generateRandom(int min, int max) {
     static random_device rd;
     static mt19937 gen(rd());
     uniform_int_distribution<int> distribution(min, max);
     return distribution(gen);
 }
 
-// Function to check connectedness of the graph using DFS
-bool isConnected(const vector<vector<int> > &connections, int numNodes)
-{
-    vector<bool> visited(numNodes, false);
-
-    function<void(int)> dfs = [&](int node)
-    {
-        visited[node] = true;
-        for (int neighbor : connections[node])
-        {
-            if (!visited[neighbor])
-            {
-                dfs(neighbor);
-            }
-        }
-    };
-    // Check connectivity for each node individually
-    for (int node = 0; node < numNodes; ++node)
-    {
-        if (!visited[node])
-        {
-            dfs(node);
-        }
-    }
-    // Check if all nodes are visited
-    return all_of(visited.begin(), visited.end(), [](bool v)
-                  { return v; });
-
-}
-
 // Function to create a random network topology using adjacency matrix
-vector<vector<int> > createRandomTopology(int numPeers)
-{
+vector<vector<int > > createRandomTopology(int numPeers) {
     mt19937 gen(time(0));
-    vector<vector<int> > connections(numPeers);
+    vector<vector<int > > connections(numPeers);
 
-    for (int i = 0; i < numPeers; ++i)
+    vector<int> indexes(numPeers);
+    iota(indexes.begin(), indexes.end(), 0);
+    shuffle(indexes.begin(), indexes.end(), gen);
+
+    for (int i = 0; i < numPeers; i++)
     {
-        int numConnections = gen() % 4 + 3;
-
-        vector<int> possibleConnections(numPeers);
-        iota(possibleConnections.begin(), possibleConnections.end(), 0);
-        possibleConnections.erase(remove(possibleConnections.begin(), possibleConnections.end(), i), possibleConnections.end());
-
-        shuffle(possibleConnections.begin(), possibleConnections.end(), gen);
-
-        connections[i].insert(connections[i].end(), possibleConnections.begin(), possibleConnections.begin() + numConnections);
+        connections[indexes[i]].push_back(indexes[(i + 1) % numPeers]);
+        connections[indexes[i]].push_back(indexes[(i - 1 + numPeers) % numPeers]);
     }
-
+    for (int i = 0; i < numPeers / 2; i++)
+    {
+        connections[indexes[i]].push_back(indexes[(i + numPeers / 2)]);
+        connections[indexes[(i + numPeers / 2)]].push_back(indexes[i]);
+    }
+    if (numPeers % 2 == 1)
+    {
+        connections[indexes[numPeers - 1]].push_back(indexes[numPeers / 2]);
+        connections[indexes[numPeers / 2]].push_back(indexes[numPeers - 1]);
+    }
     return connections;
 }
 
 vector<Node> initialization(long numPeers, long global_time)
 {
-
-    // Create an initial random network
-    vector<vector<int> > list_connections = createRandomTopology(numPeers);
-
+    
+    // Create an initial random network 
+    vector<vector<int > > list_connections = createRandomTopology(numPeers);
+    
     // Check if the graph is connected, recreate the graph until it is connected
-    while (!isConnected(list_connections, numPeers))
-    {
+    while (!isConnected(list_connections, numPeers)) {
         cout << "Generated graph is not connected. Recreating..." << endl;
         list_connections = createRandomTopology(numPeers);
     }
@@ -120,35 +107,31 @@ vector<Node> initialization(long numPeers, long global_time)
     float z_slow;
     float z_lowcpu;
 
-    cout << "\nEnter the percent of slow peer in the network: %";
+    cout << "\nEnter the percentage of slow peers in the network (%): ";
     cin >> z_slow;
-    cout << "\nEnter the percent of low cpu in the network: %";
+    cout << "\nEnter the percentage of low cpu in the network (%): ";
     cin >> z_lowcpu;
 
-    float z_fastcpu = 100 - z_lowcpu;
-    float z_fast = 100 - z_slow;
-
-    z_slow /= 100;
-    z_lowcpu /= 100;
-    z_fastcpu /= 100;
-    z_fast /= 100;
+    float z_fastcpu = 1 - z_lowcpu;
+    float z_fast = 1 - z_slow;
 
     // Creation of the genesis block
     Block genesis;
     genesis.blk_id = 0;
     genesis.crt_time = global_time;
-    genesis.txn_tree = {};
+    genesis.txn_tree = vector<TXN>();  // Assuming TXN is the type of elements in txn_tree
+
 
     for (int i = 0; i < numPeers; i++)
     {
         Node peer;
         peer.peer_id = i;
         peer.cpu = (i < z_slow * numPeers) ? peer.cpu = 0 : 1;
-        peer.speed = (i < z_lowcpu * numPeers) ? 0 : 1;
-        peer.blockchain = {genesis}; // adding genesis block
-        peer.peer_nbh = {};
+        peer.speed =  (i < z_lowcpu * numPeers) ? 0 : 1;
+        peer.blockchain = vector<Block>(1, genesis);
+        peer.peer_nbh = vector<long>();  // Assuming long is the type of elements in peer_nbh
         cout << peer.peer_id << " is connected to: ";
-        for (int j = 0; j < peer.peer_nbh.size(); j++)
+        for (int j = 0; j < list_connections[i].size(); j++)
         {
             peer.peer_nbh.push_back(list_connections[i][j]);
             cout << list_connections[i][j] << " ";
@@ -156,7 +139,7 @@ vector<Node> initialization(long numPeers, long global_time)
         cout << endl;
         peers.push_back(peer);
     }
-
+    
     return peers;
 }
 
@@ -184,8 +167,7 @@ int getBalance(vector<Node> p, int peer_id, int n_peers)
     return 0;
 };
 
-Block prepareNewBlock(int id, int crt_time)
-{
+Block prepareNewBlock(int id, int crt_time){
     Block block;
     block.blk_id = id;
     block.crt_time = crt_time;
@@ -239,17 +221,6 @@ Task prepareTaskForPowDone(long time, Task rcvTask)
 
 // transactions . cpp
 
-// Function to generate a random number from an exponential distribution
-double generateExponential(double mean)
-{
-    //double u = rand() / (RAND_MAX + 1.0);
-    //return -mean * log(1 - u);
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::exponential_distribution<> dist(1.0 / mean);
-    return dist(gen);
-}
-
 // Function to create transactions between random peers with exponential interarrival times
 TXN createTransaction(Node miner, int id, long n_peers)
 {
@@ -265,8 +236,6 @@ TXN createTransaction(Node miner, int id, long n_peers)
     txn.sender_bal = miner.amnt;
     txn.receiver_id = receiver_id;
     txn.txn_id = id;
-
-    cout << " TxnID: " << txn.txn_id << " " << txn.sender_id << " pays " << txn.receiver_id << " " << txn.amount << " coins" << endl;
 
     return txn;
 }

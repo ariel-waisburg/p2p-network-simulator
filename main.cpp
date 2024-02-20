@@ -4,11 +4,14 @@
 #include <set>
 #include <map>
 #include <random>
+#include <fstream>
 #include "models.cpp"
 #include "functions.cpp"
+#include "visualization.cpp"
 #define Pll pair<long, long>
 using namespace std;
 
+// Current time of simulation in ms
 long global_time = 0;
 
 // Will separate the logic for manager is needed.
@@ -22,15 +25,15 @@ int main()
 
     cout << "\nEnter the number of peers in the network: ";
     cin >> n_peers;
-    cout << "\nMean time of interarrival: ";
+    cout << "\nMean time of interarrival in seconds: ";
     cin >> lambda;
-    cout << "\nDuration in milli-seconds for the simulation to run: ";
+    cout << "\nDuration for the simulation to run in seconds: ";
     cin >> time_limit;
 
     vector<Node> miners = initialization(n_peers, global_time);
     set<long> txnSet; // Global set to see any used txns behaving as UTXO
-    long blkId = 0;   // Unique Id for blocks created in increasing format
-    long txnId = 0;   // Unique Id for transactions created in increasing format
+    long blkId = 1;   // Unique Id for blocks created in increasing format
+    long txnId = 1;   // Unique Id for transactions created in increasing format
 
     static mt19937 gen(rand());
     uniform_real_distribution<double> distribution(0.01, 0.5);
@@ -40,7 +43,7 @@ int main()
 
     while (global_time < time_limit)
     {
-        priority_queue<Pll, vector<Pll>, greater<Pll> > miner_idx;
+        priority_queue<Pll, vector<Pll>, greater<Pll > > miner_idx;
         for (long i = 0; i < n_peers; i++)
         {
             if (!miners[i].blk_crt_pending)
@@ -48,7 +51,7 @@ int main()
                 miners[i].tasks.push(prepareTaskForBlockCreate(generateExponential(lambda) * 1000)); // TODO - Use better randomization
                 miners[i].blk_crt_pending = true;
             }
-            miner_idx.push({miners[i].tasks.top().trigger_time, i});
+            miner_idx.push(make_pair(miners[i].tasks.top().trigger_time, i));
         }
 
         long smallest_time = miner_idx.top().first;
@@ -221,6 +224,49 @@ int main()
         }
     }
 
-    cout << "\nSimulation ended at time " << global_time << " seconds\n";
+    cout << "\nSimulation ended at time " << global_time << " seconds";
+
+    cout << "\nPrinting network topology\n";
+    printGraph(miners);
+
+    // Open a file for writing
+    ofstream outputFile("simulation_output.txt");
+
+    // Check if the file is opened successfully
+    if (!outputFile.is_open())
+    {
+        cout << "Error opening file for writing!" << endl;
+        return 1; // Return error code
+    }
+
+    // Traverse through each node in miners vector
+    for (const auto &node : miners)
+    {
+        // Write node ID and blockchain list
+        outputFile << "Node ID: " << node.peer_id << endl;
+        outputFile << "Blockchain:" << endl;
+        for (const auto &block : node.blockchain)
+        {
+            outputFile << "Block ID: " << block.blk_id << ", Transactions: ";
+            for (const auto &txn : block.txn_tree)
+            {
+                outputFile << "{ID: " << txn.txn_id << ", Sender: " << txn.sender_id
+                           << ", Receiver: " << txn.receiver_id << ", Amount: " << txn.amount << "} ";
+            }
+            outputFile << endl;
+        }
+
+        // Write peer relationships
+        outputFile << "Peer Relationships:" << endl;
+        for (const auto &neighbor : node.peer_nbh)
+        {
+            outputFile << "Connected to Node ID: " << neighbor << endl;
+        }
+
+        outputFile << endl; // Add a blank line between nodes
+    }
+
+    // Close the file
+    outputFile.close();
     return 0;
 }

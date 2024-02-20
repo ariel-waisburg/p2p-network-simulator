@@ -3,6 +3,7 @@
         "*.js": "javascriptreact",
         "random": "cpp",
         "vector": "cpp",
+<<<<<<< HEAD
         "__bit_reference": "cpp",
         "__bits": "cpp",
         "__config": "cpp",
@@ -76,5 +77,8 @@
         "functional": "cpp",
         "iterator": "cpp",
         "utility": "cpp"
+=======
+        "set": "cpp"
+>>>>>>> manager
     }
 }
